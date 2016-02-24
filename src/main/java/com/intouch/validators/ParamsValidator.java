@@ -6,17 +6,22 @@
 package com.intouch.validators;
 
 import java.util.Map;
+import com.intouch.secure.Secure;
 
 /**
  *
  * @author Владислав
  */
-public class ParamsValidator {
+
+public class ParamsValidator {    
+    
     public String validate(Map<String, String[]> paramsMap){
+        
         String resultApi = checkApiKey(paramsMap.get("api_key"));
         if(resultApi!=null){
             return resultApi;
         }
+        
         String resultMethod = checkMethod(paramsMap.get("method"));
         if(resultMethod!=null){
             return resultMethod;
@@ -24,21 +29,26 @@ public class ParamsValidator {
         return null;
     }
     
-    private String checkApiKey(String[] param){
+    private String checkApiKey(String[] param) {
         if(param==null){
-            return "parameter api_key not found";
+            return "parameter api_key is null";
         }
-        else if(!param[0].equals("SCHEMODED")){
+        else if(!param[0].equals(new Secure().getApi_key())){
             return "invalid parameter api_key";
         }
         return null;
     }
+    
     private String checkMethod(String[] param){
         if(param==null){
-            return "parameter method not found";
+            return "parameter method is null";
         }
-        //Здесь нужно проверить на наличие существующих методов
-        // Так же дальше нужно проверять наличие конкретных параметров
-        return null;
+        switch(param[0]){
+            case "registration": return "registration";
+            case "login": return "login";
+            case "logout": return "logout";
+            
+            default: return null;
+        }
     }
 }
