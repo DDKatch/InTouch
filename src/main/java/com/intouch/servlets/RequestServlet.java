@@ -8,11 +8,13 @@ package com.intouch.servlets;
 import com.intouch.processor.RequestProcessor;
 import java.io.IOException;
 import java.io.PrintWriter;
+import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import org.json.simple.JSONObject;
 
 /**
@@ -35,7 +37,12 @@ public class RequestServlet extends HttpServlet {
         response.setContentType("application/json");
         RequestProcessor rp = new RequestProcessor();
         ServletOutputStream servletOutputStream = response.getOutputStream();
-        servletOutputStream.write(rp.processRequest(request.getParameterMap()).toString().getBytes());            
+        HttpSession session = request.getSession();
+        servletOutputStream.write(rp.processRequest(request.getParameterMap(), session).toString().getBytes());
+        ServletContext servletContext = session.getServletContext();
+        if(session.getAttribute("user")!=null){
+            servletContext.setAttribute(session.getId(), session);
+        }
     }
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
