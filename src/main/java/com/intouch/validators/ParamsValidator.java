@@ -26,6 +26,7 @@ public class ParamsValidator {
         if(resultMethod!=null){
             return resultMethod;
         }
+        
         return null;
     }
     
@@ -44,10 +45,9 @@ public class ParamsValidator {
             return "parameter method is null";
         }
         switch(param[0]){
-            case "registration": return "registration";
-            case "login": return "login";
-            case "logout": return "logout";
-            
+            case "registration": 
+            case "login": 
+            case "logout":            
             default: return null;
         }
     }
