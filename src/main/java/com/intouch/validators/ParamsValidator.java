@@ -47,8 +47,8 @@ public class ParamsValidator {
         switch(param[0]){
             case "registration": 
             case "login": 
-            case "logout":            
-            default: return null;
+            case "logout": return null;   
+            default: return "parameter method is invalid";
         }
     }
 }
