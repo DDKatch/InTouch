@@ -17,7 +17,8 @@ public class Method {
     
     public static String registration(String firstName, String lastName, String login, String password) {
         DataHelper dataHelper = DataHelper.getInstance();
-        if(dataHelper.getUserByLogin(login)!=null){
+        if(!dataHelper.getUserByLogin(login).isEmpty()){
+            
             return "user with this login already exist";
         }
         else{

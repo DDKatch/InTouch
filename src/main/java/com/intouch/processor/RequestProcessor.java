@@ -47,6 +47,7 @@ public class RequestProcessor {
             }
             
         }
+        
           /*  Session session  = HibernateUtil.getSessionFactory().getCurrentSession();
             Transaction tx = session.beginTransaction();
             UserEvent uv = new UserEvent();
@@ -58,4 +59,5 @@ public class RequestProcessor {
         
         return obj;
     }
+    public RequestProcessor(){}
 }
