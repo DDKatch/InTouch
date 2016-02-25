@@ -22,8 +22,11 @@ public class DataHelper {
     private SessionFactory sessionFactory = null;
     private static DataHelper dataHelper;
 
+    private Transaction transaction;
+    
     private DataHelper() {
         sessionFactory = HibernateUtil.getSessionFactory();
+        transaction = sessionFactory.getCurrentSession().beginTransaction();
     }
 
     public static DataHelper getInstance() {
@@ -35,12 +38,18 @@ public class DataHelper {
     }
     
     public List<User> getUserByLogin(String login){
-        return getSession().createCriteria(User.class).add(Restrictions.eq("user.login", login)).list();
+        Session session = getSession();
+        if(!transaction.isActive()){
+            transaction = session.beginTransaction();
+        }
+        return session.createCriteria(User.class).add(Restrictions.eq("login", login)).list();
     }
     
     public void createNewUser(User user){
         Session session = getSession();
-        Transaction transaction = session.beginTransaction();
+         if(!transaction.isActive()){
+            transaction = session.beginTransaction();
+        }
         session.save(user);
         transaction.commit();
     }

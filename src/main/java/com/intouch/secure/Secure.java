@@ -26,13 +26,7 @@ public class Secure {
     public Secure(){
         secure_file_path = "src/main/resources/secure";
         
-        try {
-            this.api_key = getApi_key(secure_file_path);     
-        } catch(FileNotFoundException e){
-            System.out.printf(e.toString());
-            System.out.printf("using default api key: SHEMODED");
-            api_key = "SHEMODED";
-        }
+        this.api_key = "SHEMODED";
     }
 
     /**

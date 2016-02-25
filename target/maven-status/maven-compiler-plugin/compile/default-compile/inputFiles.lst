@@ -1,6 +1,11 @@
-D:\Google drive\In touch project\intouch_serv\src\main\java\com\mycompany\intouch_serv\HibernateUtil.java
-D:\Google drive\In touch project\intouch_serv\src\main\java\com\mycompany\intouch_serv\UserEvent.java
-D:\Google drive\In touch project\intouch_serv\src\main\java\com\mycompany\intouch_serv\UserSuscriber.java
-D:\Google drive\In touch project\intouch_serv\src\main\java\com\intouch\servlets\RequestServlet.java
-D:\Google drive\In touch project\intouch_serv\src\main\java\com\mycompany\intouch_serv\Event.java
-D:\Google drive\In touch project\intouch_serv\src\main\java\com\mycompany\intouch_serv\User.java
+D:\dan\InTouch\src\main\java\com\intouch\hibernate\Event.java
+D:\dan\InTouch\src\main\java\com\intouch\secure\Secure.java
+D:\dan\InTouch\src\main\java\com\intouch\hibernate\UserSuscriber.java
+D:\dan\InTouch\src\main\java\com\intouch\hibernate\UserEvent.java
+D:\dan\InTouch\src\main\java\com\intouch\hibernate\HibernateUtil.java
+D:\dan\InTouch\src\main\java\com\intouch\db\DataHelper.java
+D:\dan\InTouch\src\main\java\com\intouch\processor\RequestProcessor.java
+D:\dan\InTouch\src\main\java\com\intouch\validators\ParamsValidator.java
+D:\dan\InTouch\src\main\java\com\intouch\hibernate\User.java
+D:\dan\InTouch\src\main\java\com\intouch\Methods\Method.java
+D:\dan\InTouch\src\main\java\com\intouch\servlets\RequestServlet.java

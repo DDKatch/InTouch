@@ -16,7 +16,7 @@ import com.intouch.secure.Secure;
 public class ParamsValidator {    
     
     public String validate(Map<String, String[]> paramsMap){
-        
+        System.out.println("VALIDATOR");
         String resultApi = checkApiKey(paramsMap.get("api_key"));
         if(resultApi!=null){
             return resultApi;
