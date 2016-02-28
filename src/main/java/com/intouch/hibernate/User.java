@@ -97,10 +97,6 @@ public class User  implements java.io.Serializable {
     public void setLastVisit(Date lastVisit) {
         this.lastVisit = lastVisit;
     }
-
-
-
-
 }
 
 

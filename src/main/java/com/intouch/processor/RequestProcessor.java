@@ -43,6 +43,23 @@ public class RequestProcessor {
                     User user = DataHelper.getInstance().getUserByLogin(params.get("login")[0]).get(0);
                     obj.put("session id", session.getId());
                     session.setAttribute("user", user);
+                    return obj;
+                }
+            }
+            
+            case "login":{
+                User user = Method.logIn(params.get("login")[0], params.get("password")[0]);
+                if(user==null){
+                    obj.put("result", "error");
+                    obj.put("error type", "invalid login or password");
+                    return obj;
+                }
+                else{
+                    obj.put("result", "success");
+                    obj.put("session_id", session.getId());
+                    obj.put("user", user);
+                    session.setAttribute("user", user);
+                    return obj;
                 }
             }
             

@@ -8,6 +8,7 @@ package com.intouch.Methods;
 import com.intouch.db.DataHelper;
 import com.intouch.hibernate.User;
 import java.util.Date;
+import java.util.List;
 
 /**
  *
@@ -26,6 +27,18 @@ public class Method {
             dataHelper.createNewUser(user);
         }
         return null;
+    }
+    
+    public static User logIn(String login, String password){
+        DataHelper dataHelper = DataHelper.getInstance();
+        List<User> userList = dataHelper.getUser(login, password);
+        if(userList.isEmpty()){
+            return null;
+        }
+        else{
+            User user = userList.get(0);
+            return user;
+        }
     }
     
 }
