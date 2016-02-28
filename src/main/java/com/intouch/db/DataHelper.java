@@ -8,6 +8,7 @@ package com.intouch.db;
 import com.intouch.hibernate.HibernateUtil;
 import com.intouch.hibernate.User;
 import java.util.List;
+import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
@@ -52,6 +53,18 @@ public class DataHelper {
         }
         session.save(user);
         transaction.commit();
+    }
+    
+    public List<User> getUser(String login, String password){
+        Session session = getSession();
+        Criteria criteria = session.createCriteria(User.class);
+        if(!transaction.isActive()){
+            transaction = session.beginTransaction();
+        }
+        criteria.add(Restrictions.eq("login", login));
+        criteria.add(Restrictions.eq("password", password));
+        
+        return criteria.list();
     }
     
 }
