@@ -6,8 +6,8 @@
 package com.intouch.processor;
 
 //import com.intouch.Methods.Method;
+import com.google.gson.Gson;
 import com.intouch.Methods.Method;
-import com.intouch.db.DataHelper;
 import com.intouch.hibernate.User;
 import com.intouch.validators.ParamsValidator;
 import java.util.Map;
@@ -23,6 +23,7 @@ public class RequestProcessor {
     public JSONObject processRequest(Map<String, String[]> params, HttpSession session){
         ParamsValidator pv = new ParamsValidator();
         JSONObject obj = new JSONObject();
+        Gson gson = new Gson();
         String result = pv.validate(params);
         if(result!=null){
             obj.put("result", "error");
@@ -40,9 +41,7 @@ public class RequestProcessor {
                 }
                 else{
                     obj.put("result", "success");
-                    User user = DataHelper.getInstance().getUserByLogin(params.get("login")[0]).get(0);
                     obj.put("session id", session.getId());
-                    session.setAttribute("user", user);
                     return obj;
                 }
             }
@@ -58,7 +57,7 @@ public class RequestProcessor {
                     obj.put("result", "success");
                     obj.put("session_id", session.getId());
                     obj.put("user", user);
-                    session.setAttribute("user", user);
+                    session.setAttribute("user", gson.toJson(user));
                     return obj;
                 }
             }

@@ -34,11 +34,13 @@ public class RequestServlet extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("application/json");
         request.setCharacterEncoding("UTF-8");
+        System.out.println(request.getQueryString());
         RequestProcessor rp = new RequestProcessor();
         ServletOutputStream servletOutputStream = response.getOutputStream();
         HttpSession session = request.getSession();
         servletOutputStream.write(rp.processRequest(request.getParameterMap(), session).toString().getBytes());
         ServletContext servletContext = session.getServletContext();
+        
         if(session.getAttribute("user")!=null){
             servletContext.setAttribute(session.getId(), session);
         }

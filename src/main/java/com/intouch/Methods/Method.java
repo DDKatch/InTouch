@@ -7,6 +7,7 @@ package com.intouch.Methods;
 
 import com.intouch.db.DataHelper;
 import com.intouch.hibernate.User;
+import com.intouch.secure.Encryption;
 import java.util.Date;
 import java.util.List;
 
