@@ -32,16 +32,18 @@ public class RequestProcessor {
         }
         switch(params.get("method")[0]){
             case "registration":{
-                String registrationResult = Method.registration(params.get("first_name")[0], params.get("last_name")[0], params.get("login")[0], params.get("password")[0]);
                 
-                if(registrationResult!=null){
+                User user = Method.registration(params.get("first_name")[0], params.get("last_name")[0], params.get("login")[0], params.get("password")[0]);
+                
+                if(user==null){
                     obj.put("result", "error");
-                    obj.put("error type", registrationResult);
+                    obj.put("error type", "user with this login is already exist");                   
                     return obj;
                 }
                 else{
                     obj.put("result", "success");
-                    obj.put("session id", session.getId());
+                    obj.put("session id", session.getId());   
+                    obj.put("user", gson.toJson(user, User.class));
                     return obj;
                 }
             }
@@ -57,7 +59,7 @@ public class RequestProcessor {
                     obj.put("result", "success");
                     obj.put("session_id", session.getId());
                     obj.put("user", user);
-                    session.setAttribute("user", gson.toJson(user));
+                    session.setAttribute("user", gson.toJson(user, User.class));
                     return obj;
                 }
             }
