@@ -6,8 +6,8 @@
 package com.intouch.processor;
 
 //import com.intouch.Methods.Method;
+import com.google.gson.Gson;
 import com.intouch.Methods.Method;
-import com.intouch.db.DataHelper;
 import com.intouch.hibernate.User;
 import com.intouch.validators.ParamsValidator;
 import java.util.Map;
@@ -23,6 +23,7 @@ public class RequestProcessor {
     public JSONObject processRequest(Map<String, String[]> params, HttpSession session){
         ParamsValidator pv = new ParamsValidator();
         JSONObject obj = new JSONObject();
+        Gson gson = new Gson();
         String result = pv.validate(params);
         if(result!=null){
             obj.put("result", "error");
@@ -31,18 +32,18 @@ public class RequestProcessor {
         }
         switch(params.get("method")[0]){
             case "registration":{
-                String registrationResult = Method.registration(params.get("first_name")[0], params.get("last_name")[0], params.get("login")[0], params.get("password")[0]);
                 
-                if(registrationResult!=null){
+                User user = Method.registration(params.get("first_name")[0], params.get("last_name")[0], params.get("login")[0], params.get("password")[0]);
+                
+                if(user==null){
                     obj.put("result", "error");
-                    obj.put("error type", registrationResult);
+                    obj.put("error type", "user with this login is already exist");                   
                     return obj;
                 }
                 else{
                     obj.put("result", "success");
-                    User user = DataHelper.getInstance().getUserByLogin(params.get("login")[0]).get(0);
-                    obj.put("session id", session.getId());
-                    session.setAttribute("user", user);
+                    obj.put("session id", session.getId());   
+                    obj.put("user", gson.toJson(user, User.class));
                     return obj;
                 }
             }
@@ -58,7 +59,7 @@ public class RequestProcessor {
                     obj.put("result", "success");
                     obj.put("session_id", session.getId());
                     obj.put("user", user);
-                    session.setAttribute("user", user);
+                    session.setAttribute("user", gson.toJson(user, User.class));
                     return obj;
                 }
             }

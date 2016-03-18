@@ -9,6 +9,7 @@ import com.intouch.hibernate.HibernateUtil;
 import com.intouch.hibernate.User;
 import java.util.List;
 import org.hibernate.Criteria;
+import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
@@ -23,11 +24,12 @@ public class DataHelper {
     private SessionFactory sessionFactory = null;
     private static DataHelper dataHelper;
 
-    private Transaction transaction;
+    private static Transaction transaction;
     
     private DataHelper() {
         sessionFactory = HibernateUtil.getSessionFactory();
-        transaction = sessionFactory.getCurrentSession().beginTransaction();
+        if(transaction==null||!transaction.isActive())           
+            transaction = getSession().beginTransaction();              
     }
 
     public static DataHelper getInstance() {
@@ -35,36 +37,40 @@ public class DataHelper {
     }
     
     private Session getSession() {
-        return sessionFactory.getCurrentSession();
+        return sessionFactory.openSession();
     }
     
     public List<User> getUserByLogin(String login){
         Session session = getSession();
-        if(!transaction.isActive()){
-            transaction = session.beginTransaction();
+        List<User> users = null;
+        session.beginTransaction();
+        try{
+            users = session.createCriteria(User.class).add(Restrictions.eq("login", login)).list();
         }
-        return session.createCriteria(User.class).add(Restrictions.eq("login", login)).list();
+        catch(HibernateException ex){
+            session.beginTransaction();
+            users = session.createCriteria(User.class).add(Restrictions.eq("login", login)).list();
+        }
+        session.close();
+        return users;
     }
     
     public void createNewUser(User user){
         Session session = getSession();
-         if(!transaction.isActive()){
-            transaction = session.beginTransaction();
-        }
+        Transaction transaction1 = session.beginTransaction();
         session.save(user);
-        transaction.commit();
+        transaction1.commit();
+        session.close();
     }
     
     public List<User> getUser(String login, String password){
         Session session = getSession();
         Criteria criteria = session.createCriteria(User.class);
-        if(!transaction.isActive()){
-            transaction = session.beginTransaction();
-        }
         criteria.add(Restrictions.eq("login", login));
         criteria.add(Restrictions.eq("password", password));
-        
-        return criteria.list();
+        List<User> users = criteria.list();
+        session.close();
+        return users;
     }
     
 }

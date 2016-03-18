@@ -7,6 +7,7 @@ package com.intouch.Methods;
 
 import com.intouch.db.DataHelper;
 import com.intouch.hibernate.User;
+import com.intouch.secure.Encryption;
 import java.util.Date;
 import java.util.List;
 
@@ -16,17 +17,18 @@ import java.util.List;
  */
 public class Method {
     
-    public static String registration(String firstName, String lastName, String login, String password) {
+    public static User registration(String firstName, String lastName, String login, String password) {
         DataHelper dataHelper = DataHelper.getInstance();
         if(!dataHelper.getUserByLogin(login).isEmpty()){
             
-            return "user with this login already exist";
+            return null;
         }
         else{
             User user = new User(firstName, lastName, login, password, new Date(), new Date());
             dataHelper.createNewUser(user);
+            return user;
         }
-        return null;
+        
     }
     
     public static User logIn(String login, String password){
