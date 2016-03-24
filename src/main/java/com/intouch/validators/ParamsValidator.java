@@ -5,6 +5,7 @@
  */
 package com.intouch.validators;
 
+import com.intouch.exceptions.ServerQueryException;
 import java.util.Map;
 import com.intouch.secure.Secure;
 
@@ -15,76 +16,59 @@ import com.intouch.secure.Secure;
 
 public class ParamsValidator {    
     
-    public String validate(Map<String, String[]> paramsMap){
-        //System.out.println("VALIDATOR");
-        String resultApi = checkApiKey(paramsMap.get("api_key"));
-        if(resultApi!=null){
-            return resultApi;
-        }
-        
-        String resultMethod = checkMethod(paramsMap);
-        if(resultMethod!=null){
-            return resultMethod;
-        }
-        
-        return null;
+    public void validate(Map<String, String[]> paramsMap) throws ServerQueryException{
+        checkApiKey(paramsMap.get("api_key"));  
+        checkMethod(paramsMap);
     }
     
-    private String checkApiKey(String[] param) {
+    private void checkApiKey(String[] param) throws ServerQueryException {
         if(param==null){
-            return "parameter api_key is null";
+            throw new ServerQueryException("parameter api_key is null");
         }
         else if(!param[0].equals(new Secure().getApi_key())){
-            return "invalid parameter api_key";
+            throw new ServerQueryException("invalid parameter api_key");
         }
-        return null;
     }
     
-    private String checkMethod(Map<String, String[]> param){
-        String result;
+    private void checkMethod(Map<String, String[]> param) throws ServerQueryException{
         if(param==null){
-            return "parameter method is null";
+            throw new ServerQueryException("parameter method is null");
         }
         switch(param.get("method")[0]){
             case "registration":{
-                result = checkRegistrationMethod(param);
-                return result;
+                checkRegistrationMethod(param);
             } 
             case "login":{
-                result = checkLoginMethod(param);
-                return result;
+                checkLoginMethod(param);
             } 
             case "logout":{
-                return null;
+                break;
             }   
-            default: return "parameter method is invalid";
+            default: throw new ServerQueryException("parameter method is invalid");
         }
     }
     
-    private String checkRegistrationMethod(Map<String, String[]> param){
+    private void checkRegistrationMethod(Map<String, String[]> param) throws ServerQueryException{
         if(param.get("first_name")==null){
-            return "first name parameter is null";
+            throw new ServerQueryException("first name parameter is null");
         }
         if(param.get("last_name")==null){
-            return "last name parameter is null";
+            throw new ServerQueryException("last name parameter is null");
         }
         if(param.get("login")==null){
-            return "login parameter is null";
+            throw new ServerQueryException("login parameter is null");
         }
         if(param.get("password")==null){
-            return "password parameter is null";
+            throw new ServerQueryException("password parameter is null");
         }
-        return null;
     }
     
-    private String checkLoginMethod(Map<String, String[]> param){
+    private void checkLoginMethod(Map<String, String[]> param) throws ServerQueryException{
         if(param.get("login")==null){
-            return "login parameter is null";
+            throw new ServerQueryException("login parameter is null");
         }
         if(param.get("password")==null){
-            return "password parameter is null";
+            throw new ServerQueryException("password parameter is null");
         }
-        return null;
-    }
-    
+    }    
 }

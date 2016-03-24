@@ -5,9 +5,9 @@
  */
 package com.intouch.processor;
 
-//import com.intouch.Methods.Method;
 import com.google.gson.Gson;
 import com.intouch.Methods.Method;
+import com.intouch.exceptions.ServerQueryException;
 import com.intouch.hibernate.User;
 import com.intouch.validators.ParamsValidator;
 import java.util.Map;
@@ -24,58 +24,48 @@ public class RequestProcessor {
         ParamsValidator pv = new ParamsValidator();
         JSONObject obj = new JSONObject();
         Gson gson = new Gson();
-        String result = pv.validate(params);
-        if(result!=null){
+        try{
+            pv.validate(params);
+        }  
+        catch(ServerQueryException ex){
             obj.put("result", "error");
-            obj.put("error type", result);
+            obj.put("error type", ex.getMessage());
             return obj;
         }
         switch(params.get("method")[0]){
             case "registration":{
-                
-                User user = Method.registration(params.get("first_name")[0], params.get("last_name")[0], params.get("login")[0], params.get("password")[0]);
-                
-                if(user==null){
-                    obj.put("result", "error");
-                    obj.put("error type", "user with this login is already exist");                   
-                    return obj;
-                }
-                else{
-                    obj.put("result", "success");
-                    obj.put("session id", session.getId());   
+                try{
+                    User user = Method.registration(params.get("first_name")[0], params.get("last_name")[0], params.get("login")[0], params.get("password")[0], "token");/////////////////
+                   obj.put("result", "success");
+                   obj.put("session id", "token");/////////////////////   
                     obj.put("user", gson.toJson(user, User.class));
                     return obj;
                 }
+                
+                catch(ServerQueryException e){
+                    obj.put("result", "error");
+                    obj.put("error type", e.getMessage());                   
+                    return obj;
+                }
+
             }
             
             case "login":{
+            try {
                 User user = Method.logIn(params.get("login")[0], params.get("password")[0]);
-                if(user==null){
-                    obj.put("result", "error");
-                    obj.put("error type", "invalid login or password");
-                    return obj;
-                }
-                else{
-                    obj.put("result", "success");
-                    obj.put("session_id", session.getId());
-                    obj.put("user", user);
-                    session.setAttribute("user", gson.toJson(user, User.class));
-                    return obj;
-                }
+                obj.put("result", "success");
+                obj.put("session_id", session.getId());
+                obj.put("user", gson.toJson(user, User.class));
+                session.setAttribute("user", user);
+                return obj;
+            } catch (ServerQueryException ex) {
+                obj.put("result", "error");
+                obj.put("error type", ex.getMessage());
+                return obj;
             }
-            
+            }
+            default: return null;
         }
-        
-          /*  Session session  = HibernateUtil.getSessionFactory().getCurrentSession();
-            Transaction tx = session.beginTransaction();
-            UserEvent uv = new UserEvent();
-            uv.setEventId(123);
-            uv.setUserId(1223);
-            session.save(uv);
-            tx.commit();
-        */
-        
-        return obj;
     }
     public RequestProcessor(){}
 }

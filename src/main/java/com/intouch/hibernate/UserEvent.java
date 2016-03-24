@@ -1,5 +1,5 @@
 package com.intouch.hibernate;
-// Generated 23.02.2016 1:48:34 by Hibernate Tools 4.3.1
+// Generated 24.03.2016 19:06:59 by Hibernate Tools 4.3.1
 
 
 
@@ -9,38 +9,39 @@ package com.intouch.hibernate;
 public class UserEvent  implements java.io.Serializable {
 
 
-     private Long id;
-     private long userId;
-     private long eventId;
+     private UserEventId id;
+     private Event event;
+     private User user;
 
     public UserEvent() {
     }
 
-    public UserEvent(long userId, long eventId) {
-       this.userId = userId;
-       this.eventId = eventId;
+    public UserEvent(UserEventId id, Event event, User user) {
+       this.id = id;
+       this.event = event;
+       this.user = user;
     }
    
-    public Long getId() {
+    public UserEventId getId() {
         return this.id;
     }
     
-    public void setId(Long id) {
+    public void setId(UserEventId id) {
         this.id = id;
     }
-    public long getUserId() {
-        return this.userId;
+    public Event getEvent() {
+        return this.event;
     }
     
-    public void setUserId(long userId) {
-        this.userId = userId;
+    public void setEvent(Event event) {
+        this.event = event;
     }
-    public long getEventId() {
-        return this.eventId;
+    public User getUser() {
+        return this.user;
     }
     
-    public void setEventId(long eventId) {
-        this.eventId = eventId;
+    public void setUser(User user) {
+        this.user = user;
     }
 
 
