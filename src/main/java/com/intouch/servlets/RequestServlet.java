@@ -7,13 +7,13 @@ package com.intouch.servlets;
 
 import com.intouch.processor.RequestProcessor;
 import java.io.IOException;
-import javax.servlet.ServletContext;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.servlet.ServletException;
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 /**
  *
@@ -34,16 +34,15 @@ public class RequestServlet extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("application/json");
         request.setCharacterEncoding("UTF-8");
-        System.out.println(request.getQueryString());
+        response.setCharacterEncoding("UTF-8");
         RequestProcessor rp = new RequestProcessor();
         ServletOutputStream servletOutputStream = response.getOutputStream();
-        HttpSession session = request.getSession();
-        servletOutputStream.write(rp.processRequest(request.getParameterMap(), session).toString().getBytes());
-        ServletContext servletContext = session.getServletContext();
-        
-        if(session.getAttribute("user")!=null){
-            servletContext.setAttribute(session.getId(), session);
+        try {
+            servletOutputStream.write(rp.processRequest(request).toString().getBytes());
+        } catch (Exception ex) {
+            Logger.getLogger(RequestServlet.class.getName()).log(Level.SEVERE, null, ex);
         }
+
     }
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**

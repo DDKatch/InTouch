@@ -64,4 +64,12 @@ public class DataHelper {
         return user;
     }
     
+    public User getUserByToken(String token){
+        Session session = getSession();
+        session.beginTransaction();
+        User user = (User) session.createCriteria(User.class).add(Restrictions.eq("token", token)).uniqueResult();
+        session.getTransaction().commit();
+        return user;
+    }
+    
 }

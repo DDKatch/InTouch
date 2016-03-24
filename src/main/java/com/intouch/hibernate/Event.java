@@ -1,5 +1,5 @@
 package com.intouch.hibernate;
-// Generated 24.03.2016 19:06:59 by Hibernate Tools 4.3.1
+// Generated 24.03.2016 21:30:48 by Hibernate Tools 4.3.1
 
 
 import java.util.Date;
@@ -16,7 +16,7 @@ public class Event  implements java.io.Serializable {
      private User user;
      private String name;
      private String description;
-     private byte[] gps;
+     private String gps;
      private Date dateTime;
      private String address;
      private Date createDate;
@@ -26,16 +26,15 @@ public class Event  implements java.io.Serializable {
     }
 
 	
-    public Event(User user, String name, String description, byte[] gps, Date dateTime, String address, Date createDate) {
+    public Event(User user, String name, String gps, Date dateTime, String address, Date createDate) {
         this.user = user;
         this.name = name;
-        this.description = description;
         this.gps = gps;
         this.dateTime = dateTime;
         this.address = address;
         this.createDate = createDate;
     }
-    public Event(User user, String name, String description, byte[] gps, Date dateTime, String address, Date createDate, Set userEvents) {
+    public Event(User user, String name, String description, String gps, Date dateTime, String address, Date createDate, Set userEvents) {
        this.user = user;
        this.name = name;
        this.description = description;
@@ -74,11 +73,11 @@ public class Event  implements java.io.Serializable {
     public void setDescription(String description) {
         this.description = description;
     }
-    public byte[] getGps() {
+    public String getGps() {
         return this.gps;
     }
     
-    public void setGps(byte[] gps) {
+    public void setGps(String gps) {
         this.gps = gps;
     }
     public Date getDateTime() {
