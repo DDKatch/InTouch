@@ -7,9 +7,7 @@ package com.intouch.db;
 
 import com.intouch.hibernate.HibernateUtil;
 import com.intouch.hibernate.User;
-import java.util.List;
 import org.hibernate.Criteria;
-import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
@@ -23,36 +21,29 @@ public class DataHelper {
     
     private SessionFactory sessionFactory = null;
     private static DataHelper dataHelper;
-
-    private static Transaction transaction;
-    
+   
     private DataHelper() {
-        sessionFactory = HibernateUtil.getSessionFactory();
-        if(transaction==null||!transaction.isActive())           
-            transaction = getSession().beginTransaction();              
+        sessionFactory = HibernateUtil.getSessionFactory();             
     }
 
     public static DataHelper getInstance() {
-        return dataHelper == null ? new DataHelper() : dataHelper;
+       if(dataHelper==null){ 
+           dataHelper = new DataHelper();
+       }
+       return dataHelper;
     }
     
     private Session getSession() {
-        return sessionFactory.openSession();
+        return sessionFactory.getCurrentSession();
     }
     
-    public List<User> getUserByLogin(String login){
+    public User getUserByLogin(String login){
         Session session = getSession();
-        List<User> users = null;
-        session.beginTransaction();
-        try{
-            users = session.createCriteria(User.class).add(Restrictions.eq("login", login)).list();
-        }
-        catch(HibernateException ex){
-            session.beginTransaction();
-            users = session.createCriteria(User.class).add(Restrictions.eq("login", login)).list();
-        }
-        session.close();
-        return users;
+        User user = null;
+        session.beginTransaction();        
+        user = (User) session.createCriteria(User.class).add(Restrictions.eq("login", login)).uniqueResult();
+        session.getTransaction().commit();
+        return user;
     }
     
     public void createNewUser(User user){
@@ -60,17 +51,17 @@ public class DataHelper {
         Transaction transaction1 = session.beginTransaction();
         session.save(user);
         transaction1.commit();
-        session.close();
     }
     
-    public List<User> getUser(String login, String password){
+    public User getUser(String login, String password){
         Session session = getSession();
+        session.beginTransaction();
         Criteria criteria = session.createCriteria(User.class);
         criteria.add(Restrictions.eq("login", login));
         criteria.add(Restrictions.eq("password", password));
-        List<User> users = criteria.list();
-        session.close();
-        return users;
+        User user = (User) criteria.uniqueResult();
+        session.getTransaction().commit();
+        return user;
     }
     
 }

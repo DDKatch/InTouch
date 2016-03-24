@@ -6,10 +6,9 @@
 package com.intouch.Methods;
 
 import com.intouch.db.DataHelper;
+import com.intouch.exceptions.ServerQueryException;
 import com.intouch.hibernate.User;
-import com.intouch.secure.Encryption;
 import java.util.Date;
-import java.util.List;
 
 /**
  *
@@ -17,30 +16,27 @@ import java.util.List;
  */
 public class Method {
     
-    public static User registration(String firstName, String lastName, String login, String password) {
+    public static User registration(String firstName, String lastName, String login, String password, String token) throws ServerQueryException {
         DataHelper dataHelper = DataHelper.getInstance();
-        if(!dataHelper.getUserByLogin(login).isEmpty()){
-            
-            return null;
+        if(dataHelper.getUserByLogin(login)!=null){
+            throw new ServerQueryException("User with login "+login+" is already exist.");
         }
-        else{
-            User user = new User(firstName, lastName, login, password, new Date(), new Date());
+        else{ 
+            User user = new User(firstName, lastName, login, password, new Date(), new Date(), token);           
             dataHelper.createNewUser(user);
             return user;
         }
         
+        
     }
     
-    public static User logIn(String login, String password){
+    public static User logIn(String login, String password) throws ServerQueryException{
         DataHelper dataHelper = DataHelper.getInstance();
-        List<User> userList = dataHelper.getUser(login, password);
-        if(userList.isEmpty()){
-            return null;
+        User user = dataHelper.getUser(login, password);
+        if(user==null){
+            throw new ServerQueryException("User with login "+login+" not found.");
         }
-        else{
-            User user = userList.get(0);
-            return user;
-        }
+        return user;
     }
     
 }

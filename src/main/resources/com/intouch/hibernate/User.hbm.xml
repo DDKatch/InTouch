@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
 "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
-<!-- Generated 23.02.2016 1:48:35 by Hibernate Tools 4.3.1 -->
+<!-- Generated 24.03.2016 19:07:01 by Hibernate Tools 4.3.1 -->
 <hibernate-mapping>
     <class name="com.intouch.hibernate.User" table="user" catalog="intouchdb" optimistic-lock="version">
         <id name="id" type="java.lang.Long">
@@ -29,5 +29,32 @@
         <property name="lastVisit" type="timestamp">
             <column name="last_visit" length="19" not-null="true" />
         </property>
+        <property name="token" type="string">
+            <column name="token" length="45" not-null="true" />
+        </property>
+        <set name="events" table="event" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="creator_id" not-null="true" />
+            </key>
+            <one-to-many class="com.intouch.hibernate.Event" />
+        </set>
+        <set name="userEvents" table="user_event" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="user_id" not-null="true" />
+            </key>
+            <one-to-many class="com.intouch.hibernate.UserEvent" />
+        </set>
+        <set name="userSubsesForUser" table="user_subs" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="user" not-null="true" />
+            </key>
+            <one-to-many class="com.intouch.hibernate.UserSubs" />
+        </set>
+        <set name="userSubsesForSubscriber" table="user_subs" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="subscriber" not-null="true" />
+            </key>
+            <one-to-many class="com.intouch.hibernate.UserSubs" />
+        </set>
     </class>
 </hibernate-mapping>

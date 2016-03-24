@@ -1,10 +1,13 @@
 D:\Google drive\FINAL REPO\InTouch2\InTouch\src\main\java\com\intouch\eventlisteners\SessionListener.java
+D:\Google drive\FINAL REPO\InTouch2\InTouch\src\main\java\com\intouch\hibernate\UserSubs.java
 D:\Google drive\FINAL REPO\InTouch2\InTouch\src\main\java\com\intouch\secure\Secure.java
+D:\Google drive\FINAL REPO\InTouch2\InTouch\src\main\java\com\intouch\exceptions\ServerQueryException.java
 D:\Google drive\FINAL REPO\InTouch2\InTouch\src\main\java\com\intouch\db\DataHelper.java
 D:\Google drive\FINAL REPO\InTouch2\InTouch\src\main\java\com\intouch\servlets\RequestServlet.java
+D:\Google drive\FINAL REPO\InTouch2\InTouch\src\main\java\com\intouch\hibernate\UserSubsId.java
+D:\Google drive\FINAL REPO\InTouch2\InTouch\src\main\java\com\intouch\hibernate\UserEventId.java
 D:\Google drive\FINAL REPO\InTouch2\InTouch\src\main\java\com\intouch\validators\ParamsValidator.java
 D:\Google drive\FINAL REPO\InTouch2\InTouch\src\main\java\com\intouch\processor\RequestProcessor.java
-D:\Google drive\FINAL REPO\InTouch2\InTouch\src\main\java\com\intouch\hibernate\UserSuscriber.java
 D:\Google drive\FINAL REPO\InTouch2\InTouch\src\main\java\com\intouch\hibernate\HibernateUtil.java
 D:\Google drive\FINAL REPO\InTouch2\InTouch\src\main\java\com\intouch\Methods\Method.java
 D:\Google drive\FINAL REPO\InTouch2\InTouch\src\main\java\com\intouch\secure\Encryption.java
