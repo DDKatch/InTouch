@@ -44,9 +44,6 @@ public class UserEvent  implements java.io.Serializable {
         this.user = user;
     }
 
-
-
-
 }
 
 

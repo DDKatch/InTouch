@@ -5,8 +5,11 @@
  */
 package com.intouch.db;
 
+import com.intouch.hibernate.Event;
 import com.intouch.hibernate.HibernateUtil;
 import com.intouch.hibernate.User;
+import com.intouch.hibernate.UserEvent;
+import java.util.Set;
 import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -71,5 +74,51 @@ public class DataHelper {
         session.getTransaction().commit();
         return user;
     }
+            
+    public Event getEventByUser(User user){
+        Session session = getSession();
+        session.beginTransaction();
+        Event event = (Event) session.createCriteria(Event.class).add(Restrictions.eq("user", user)).uniqueResult();
+        session.getTransaction().commit();
+        return event;
+    }
+        
+    public void createNewEvent(Event event){
+        Session session = getSession();
+        Transaction transaction1 = session.beginTransaction();
+        session.save(event);
+        transaction1.commit();
+    }
+    
+    public Set getEvent(String token){
+        Session session = getSession();
+        session.beginTransaction();
+        User user = (User) session.createCriteria(User.class).add(Restrictions.eq("token", token)).uniqueResult();
+        session.getTransaction().commit();
+        
+        return user.getUserEvents();
+    }
+    
+    public Set getUserEvents(String token){
+        Session session = getSession();
+        session.beginTransaction();
+        User user = (User) session.createCriteria(User.class).add(Restrictions.eq("token", token)).uniqueResult();
+        session.getTransaction().commit();
+        
+        return user.getUserEvents();
+    }
+    
+    private <T> T cast(Object o, Class<T> clazz) {
+        try {
+            return clazz.cast(o);
+        } catch(ClassCastException e) {
+            System.out.println(e.toString());
+            return null;
+        }
+    }
     
 }
+
+
+    
+    
