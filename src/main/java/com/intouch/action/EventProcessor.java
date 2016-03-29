@@ -36,16 +36,10 @@ public class EventProcessor extends Processor{
             isParameterExist(params, "description");
             isParameterExist(params, "gps");
             isParameterExist(params, "id");
-            isParameterExist(params, "creator_id");
             isParameterExist(params, "date_time");
             isParameterExist(params, "address");
-            isParameterExist(params, "create_date");
             isParameterExist(params, "token");
             isApiKeyValid(params.get("api_key")[0]);
-            dataHelper = DataHelper.getInstance();
-            if(dataHelper.getEventByUser(user)!=null){
-                throw new ServerQueryException("User have been create "+ params.get("name")[0] +"event yet");
-            }
         }
         catch(ServerQueryException ex){
             response.put("result", "error");
@@ -54,17 +48,22 @@ public class EventProcessor extends Processor{
         }
         
         Event event = null;
-        
+        Date date_time = null;
         try {
-            event = new Event(user,
-                    params.get("name")[0],
-                    params.get("gps")[0],
-                    new SimpleDateFormat("MMMM d, yyyy", Locale.ENGLISH).parse(params.get("date_time")[0]),
-                    params.get("address")[0],
-                    new Date());
+            date_time = new SimpleDateFormat("MMMM d, yyyy", Locale.ENGLISH).parse(params.get("date_time")[0]);
         } catch (ParseException ex) {
             Logger.getLogger(EventProcessor.class.getName()).log(Level.SEVERE, null, ex);
+            date_time = new Date();
         }
+        
+        event = new Event(user,
+                    params.get("name")[0],
+                    params.get("gps")[0],
+                    date_time,
+                    params.get("address")[0],
+                    new Date());
+        
+        event.setDescription(params.get("description")[0]);
         
         dataHelper.createNewEvent(event);
         

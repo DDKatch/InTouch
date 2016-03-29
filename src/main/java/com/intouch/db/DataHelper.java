@@ -8,7 +8,6 @@ package com.intouch.db;
 import com.intouch.hibernate.Event;
 import com.intouch.hibernate.HibernateUtil;
 import com.intouch.hibernate.User;
-import com.intouch.hibernate.UserEvent;
 import java.util.Set;
 import org.hibernate.Criteria;
 import org.hibernate.Session;
