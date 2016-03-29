@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 24.03.2016 21:30:49 by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+    <class name="com.intouch.hibernate.UserEvent" table="user_event" catalog="intouchdb" optimistic-lock="version">
+        <composite-id name="id" class="com.intouch.hibernate.UserEventId">
+            <key-property name="userId" type="long">
+                <column name="user_id" />
+            </key-property>
+            <key-property name="eventId" type="long">
+                <column name="event_id" />
+            </key-property>
+        </composite-id>
+        <many-to-one name="event" class="com.intouch.hibernate.Event" update="false" insert="false" fetch="select">
+            <column name="event_id" not-null="true" />
+        </many-to-one>
+        <many-to-one name="user" class="com.intouch.hibernate.User" update="false" insert="false" fetch="select">
+            <column name="user_id" not-null="true" />
+        </many-to-one>
+    </class>
+</hibernate-mapping>
