@@ -24,22 +24,17 @@ public class LoginProcessor extends Processor{
         Gson gson;
         JSONObject response;
         response = new JSONObject();
-        try{
-            isParameterExist(params, "api_key");
-            isParameterExist(params, "login");
-            isParameterExist(params, "password");
-            isApiKeyValid(params.get("api_key")[0]);
-            DataHelper dataHelper = DataHelper.getInstance();
-            user = dataHelper.getUser(params.get("login")[0], params.get("password")[0]);
-            if(user==null){
-                throw new ServerQueryException("Invalid login or password.");
-            }
+        
+        isParameterExist(params, "api_key");
+        isParameterExist(params, "login");
+        isParameterExist(params, "password");
+        isApiKeyValid(params.get("api_key")[0]);
+        DataHelper dataHelper = DataHelper.getInstance();
+        user = dataHelper.getUser(params.get("login")[0], params.get("password")[0]);
+        if(user==null){
+            throw new ServerQueryException("Invalid login or password.");
         }
-        catch(ServerQueryException ex){
-            response.put("result", "error");
-            response.put("error_type", ex.getMessage());
-            return response;
-        }
+
         gson = new Gson();
         response = new JSONObject();
         response.put("result", "success");

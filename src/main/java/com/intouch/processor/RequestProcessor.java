@@ -18,8 +18,9 @@ import org.json.simple.JSONObject;
 public class RequestProcessor {
     
     public JSONObject processRequest(HttpServletRequest request) throws Exception{
-        InputStream inputStream = request.getServletContext().getResourceAsStream("/WEB-INF/resourse/properties/prop.properties");
+        InputStream inputStream = request.getServletContext().getResourceAsStream("/WEB-INF/prop.properties");
         Properties properties = new Properties();
+        String str = request.getContextPath();
         properties.load(inputStream);
         Class cls = Class.forName(properties.getProperty(request.getParameter("method")));
         Processor processor = (Processor) cls.newInstance();

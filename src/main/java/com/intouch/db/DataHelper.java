@@ -8,12 +8,18 @@ package com.intouch.db;
 import com.intouch.hibernate.Event;
 import com.intouch.hibernate.HibernateUtil;
 import com.intouch.hibernate.User;
+import com.intouch.hibernate.UserSubs;
+
 import java.util.Set;
 import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
+
+import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
+
+import org.hibernate.transform.Transformers;
 
 /**
  *
@@ -35,7 +41,7 @@ public class DataHelper {
        return dataHelper;
     }
     
-    private Session getSession() {
+    public Session getSession() {
         return sessionFactory.getCurrentSession();
     }
     
@@ -55,12 +61,13 @@ public class DataHelper {
         transaction1.commit();
     }
     
+    
     public User getUser(String login, String password){
         Session session = getSession();
         session.beginTransaction();
         Criteria criteria = session.createCriteria(User.class);
-        criteria.add(Restrictions.eq("login", login));
-        criteria.add(Restrictions.eq("password", password));
+        criteria.add(Restrictions.eq("login", login))
+        .add(Restrictions.eq("password", password));
         User user = (User) criteria.uniqueResult();
         session.getTransaction().commit();
         return user;
@@ -107,15 +114,21 @@ public class DataHelper {
         return user.getUserEvents();
     }
     
-    private <T> T cast(Object o, Class<T> clazz) {
-        try {
-            return clazz.cast(o);
-        } catch(ClassCastException e) {
-            System.out.println(e.toString());
-            return null;
-        }
+    public void submitUserChanges(UserSubs userSubs){
+        Session session = getSession();
+        session.beginTransaction();
+        session.save(userSubs);
+        session.getTransaction().commit();
     }
     
+    public Event getEventById(Long id){
+        Session session = getSession();
+        session.beginTransaction();
+        Event event = (Event) session.createCriteria(Event.class).add(Restrictions.eq("id", id)).uniqueResult();
+        session.getTransaction().commit();
+        return event;
+    }
+  
 }
 
 

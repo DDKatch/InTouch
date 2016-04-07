@@ -31,21 +31,15 @@ public class EventProcessor extends Processor{
         User user = dataHelper.getUserByToken(params.get("token")[0]);
         JSONObject response;
         response = new JSONObject();
-        try{
-            isParameterExist(params, "name");
-            isParameterExist(params, "description");
-            isParameterExist(params, "gps");
-            isParameterExist(params, "id");
-            isParameterExist(params, "date_time");
-            isParameterExist(params, "address");
-            isParameterExist(params, "token");
-            isApiKeyValid(params.get("api_key")[0]);
-        }
-        catch(ServerQueryException ex){
-            response.put("result", "error");
-            response.put("error_type", ex.getMessage());
-            return response;
-        }
+        
+        isParameterExist(params, "name");
+        isParameterExist(params, "description");
+        isParameterExist(params, "gps");
+        isParameterExist(params, "id");
+        isParameterExist(params, "date_time");
+        isParameterExist(params, "address");
+        isParameterExist(params, "token");
+        isApiKeyValid(params.get("api_key")[0]);
         
         Event event = null;
         Date date_time = null;
@@ -64,7 +58,6 @@ public class EventProcessor extends Processor{
                     new Date());
         
         event.setDescription(params.get("description")[0]);
-        
         dataHelper.createNewEvent(event);
         
         Gson gson = new Gson();

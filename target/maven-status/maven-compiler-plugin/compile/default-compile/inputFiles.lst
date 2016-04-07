@@ -1,0 +1,16 @@
+/home/vladislav/InTouch/InTouch/src/main/java/com/intouch/hibernate/UserSubs.java
+/home/vladislav/InTouch/InTouch/src/main/java/com/intouch/hibernate/UserEvent.java
+/home/vladislav/InTouch/InTouch/src/main/java/com/intouch/action/LoginProcessor.java
+/home/vladislav/InTouch/InTouch/src/main/java/com/intouch/hibernate/UserEventId.java
+/home/vladislav/InTouch/InTouch/src/main/java/com/intouch/action/EventProcessor.java
+/home/vladislav/InTouch/InTouch/src/main/java/com/intouch/hibernate/Event.java
+/home/vladislav/InTouch/InTouch/src/main/java/com/intouch/hibernate/HibernateUtil.java
+/home/vladislav/InTouch/InTouch/src/main/java/com/intouch/servlets/RequestServlet.java
+/home/vladislav/InTouch/InTouch/src/main/java/com/intouch/action/RegistrationProcessor.java
+/home/vladislav/InTouch/InTouch/src/main/java/com/intouch/action/FollowUserProcessor.java
+/home/vladislav/InTouch/InTouch/src/main/java/com/intouch/hibernate/User.java
+/home/vladislav/InTouch/InTouch/src/main/java/com/intouch/exceptions/ServerQueryException.java
+/home/vladislav/InTouch/InTouch/src/main/java/com/intouch/action/Processor.java
+/home/vladislav/InTouch/InTouch/src/main/java/com/intouch/hibernate/UserSubsId.java
+/home/vladislav/InTouch/InTouch/src/main/java/com/intouch/processor/RequestProcessor.java
+/home/vladislav/InTouch/InTouch/src/main/java/com/intouch/db/DataHelper.java
