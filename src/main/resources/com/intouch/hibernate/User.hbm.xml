@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
 "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
-<!-- Generated 07.04.2016 17:08:53 by Hibernate Tools 4.3.1 -->
+<!-- Generated 14.04.2016 20:20:47 by Hibernate Tools 4.3.1 -->
 <hibernate-mapping>
     <class name="com.intouch.hibernate.User" table="user" catalog="intouchdb" optimistic-lock="version">
         <id name="id" type="java.lang.Long">
@@ -18,7 +18,7 @@
             <column name="user_image" />
         </property>
         <property name="login" type="string">
-            <column name="login" length="20" not-null="true" />
+            <column name="login" length="50" not-null="true" />
         </property>
         <property name="password" type="string">
             <column name="password" length="20" not-null="true" />
@@ -32,25 +32,31 @@
         <property name="token" type="string">
             <column name="token" length="45" not-null="true" />
         </property>
-        <set name="events" table="event" inverse="true" lazy="false" fetch="subselect">
+        <property name="applicationId" type="string">
+            <column name="application_id" length="45" not-null="true" />
+        </property>
+        <property name="deviceId" type="string">
+            <column name="device_id" length="45" not-null="true" />
+        </property>
+        <set name="events" table="event" inverse="true" lazy="true" fetch="select">
             <key>
                 <column name="creator_id" not-null="true" />
             </key>
             <one-to-many class="com.intouch.hibernate.Event" />
         </set>
-        <set name="userEvents" table="user_event" inverse="true" lazy="false" fetch="subselect">
+        <set name="userEvents" table="user_event" inverse="true" lazy="true" fetch="select">
             <key>
                 <column name="user_id" not-null="true" />
             </key>
             <one-to-many class="com.intouch.hibernate.UserEvent" />
         </set>
-        <set name="userSubsesForUser" table="user_subs" inverse="true" lazy="false" fetch="subselect">
+        <set name="userSubsesForUser" table="user_subs" inverse="true" lazy="true" fetch="select">
             <key>
                 <column name="user" not-null="true" />
             </key>
             <one-to-many class="com.intouch.hibernate.UserSubs" />
         </set>
-        <set name="userSubsesForSubscriber" table="user_subs" inverse="true" lazy="false" fetch="subselect">
+        <set name="userSubsesForSubscriber" table="user_subs" inverse="true" lazy="true" fetch="select">
             <key>
                 <column name="subscriber" not-null="true" />
             </key>

@@ -6,6 +6,7 @@
 package com.intouch.processor;
 
 import com.intouch.action.Processor;
+import com.intouch.exceptions.ServerQueryException;
 import java.io.InputStream;
 import java.util.Properties;
 import javax.servlet.http.HttpServletRequest;
@@ -18,6 +19,7 @@ import org.json.simple.JSONObject;
 public class RequestProcessor {
     
     public JSONObject processRequest(HttpServletRequest request) throws Exception{
+        JSONObject jSONObject;
         InputStream inputStream = request.getServletContext().getResourceAsStream("/WEB-INF/prop.properties");
         Properties properties = new Properties();
         String str = request.getContextPath();
@@ -25,6 +27,15 @@ public class RequestProcessor {
         Class cls = Class.forName(properties.getProperty(request.getParameter("method")));
         Processor processor = (Processor) cls.newInstance();
         inputStream.close();
-        return processor.processRequest(request.getParameterMap());
+        
+        try{
+            jSONObject = processor.processRequest(request.getParameterMap());
+        }     
+        catch(ServerQueryException ex){
+            jSONObject = new JSONObject();
+            jSONObject.put("result", "error");
+            jSONObject.put("error_type", ex.getMessage());
+        }
+        return jSONObject;
     }
 }

@@ -25,24 +25,20 @@ public class RegistrationProcessor extends Processor {
         JSONObject response;
         response = new JSONObject();
         DataHelper dataHelper = null;
-        try{
-            isParameterExist(params, "api_key");
-            isParameterExist(params, "login");
-            isParameterExist(params, "password");
-            isParameterExist(params, "first_name");
-            isParameterExist(params, "last_name");
-            isApiKeyValid(params.get("api_key")[0]);
-            dataHelper = DataHelper.getInstance();
-            if(dataHelper.getUserByLogin(params.get("login")[0])!=null){
-                throw new ServerQueryException("User with login "+ params.get("login")[0] +"already exist.");
-            }
+        
+        isParameterExist(params, "api_key");
+        isParameterExist(params, "login");
+        isParameterExist(params, "password");
+        isParameterExist(params, "first_name");
+        isParameterExist(params, "last_name");
+        isParameterExist(params, "applicationId");
+        isParameterExist(params, "deviceId");
+        isApiKeyValid(params.get("api_key")[0]);
+        dataHelper = DataHelper.getInstance();
+        if(dataHelper.getUserByLogin(params.get("login")[0])!=null){
+            throw new ServerQueryException("User with login "+ params.get("login")[0] +"already exist.");
         }
-        catch(ServerQueryException ex){
-            response.put("result", "error");
-            response.put("error_type", ex.getMessage());
-            return response;
-        }
-        User user = new User(params.get("first_name")[0], params.get("last_name")[0], params.get("login")[0], params.get("password")[0], new Date(), new Date(), UUID.randomUUID().toString());
+        User user = new User(params.get("first_name")[0], params.get("last_name")[0], params.get("login")[0], params.get("password")[0], new Date(), new Date(), UUID.randomUUID().toString(), params.get("applicationId")[0], params.get("deviceId")[0]);
         dataHelper.createNewUser(user);
         
         Gson gson = new Gson();

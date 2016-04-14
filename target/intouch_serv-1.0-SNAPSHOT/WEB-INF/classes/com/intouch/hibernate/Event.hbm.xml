@@ -1,13 +1,16 @@
 <?xml version="1.0"?>
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
 "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
-<!-- Generated 07.04.2016 17:08:53 by Hibernate Tools 4.3.1 -->
+<!-- Generated 14.04.2016 20:20:47 by Hibernate Tools 4.3.1 -->
 <hibernate-mapping>
     <class name="com.intouch.hibernate.Event" table="event" catalog="intouchdb" optimistic-lock="version">
         <id name="id" type="java.lang.Long">
             <column name="id" />
             <generator class="identity" />
         </id>
+        <many-to-one name="eventType" class="com.intouch.hibernate.EventType" fetch="select">
+            <column name="type_id" />
+        </many-to-one>
         <many-to-one name="user" class="com.intouch.hibernate.User" fetch="select">
             <column name="creator_id" not-null="true" />
         </many-to-one>
@@ -18,7 +21,7 @@
             <column name="description" length="200" />
         </property>
         <property name="gps" type="string">
-            <column name="gps" length="45" not-null="true" />
+            <column name="gps" length="40" not-null="true" />
         </property>
         <property name="dateTime" type="timestamp">
             <column name="date_time" length="19" not-null="true" />
@@ -29,7 +32,10 @@
         <property name="createDate" type="timestamp">
             <column name="create_date" length="19" not-null="true" />
         </property>
-        <set name="userEvents" table="user_event" inverse="true" lazy="false" fetch="select">
+        <property name="city" type="string">
+            <column name="city" length="45" not-null="true" />
+        </property>
+        <set name="userEvents" table="user_event" inverse="true" lazy="true" fetch="select">
             <key>
                 <column name="event_id" not-null="true" />
             </key>

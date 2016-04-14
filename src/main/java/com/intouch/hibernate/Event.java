@@ -1,5 +1,5 @@
 package com.intouch.hibernate;
-// Generated 07.04.2016 17:08:53 by Hibernate Tools 4.3.1
+// Generated 14.04.2016 20:20:47 by Hibernate Tools 4.3.1
 
 
 import java.util.Date;
@@ -13,6 +13,7 @@ public class Event  implements java.io.Serializable {
 
 
      private Long id;
+     private EventType eventType;
      private User user;
      private String name;
      private String description;
@@ -20,21 +21,24 @@ public class Event  implements java.io.Serializable {
      private Date dateTime;
      private String address;
      private Date createDate;
+     private String city;
      private Set userEvents = new HashSet(0);
 
     public Event() {
     }
 
 	
-    public Event(User user, String name, String gps, Date dateTime, String address, Date createDate) {
+    public Event(User user, String name, String gps, Date dateTime, String address, Date createDate, String city) {
         this.user = user;
         this.name = name;
         this.gps = gps;
         this.dateTime = dateTime;
         this.address = address;
         this.createDate = createDate;
+        this.city = city;
     }
-    public Event(User user, String name, String description, String gps, Date dateTime, String address, Date createDate, Set userEvents) {
+    public Event(EventType eventType, User user, String name, String description, String gps, Date dateTime, String address, Date createDate, String city, Set userEvents) {
+       this.eventType = eventType;
        this.user = user;
        this.name = name;
        this.description = description;
@@ -42,6 +46,7 @@ public class Event  implements java.io.Serializable {
        this.dateTime = dateTime;
        this.address = address;
        this.createDate = createDate;
+       this.city = city;
        this.userEvents = userEvents;
     }
    
@@ -51,6 +56,13 @@ public class Event  implements java.io.Serializable {
     
     public void setId(Long id) {
         this.id = id;
+    }
+    public EventType getEventType() {
+        return this.eventType;
+    }
+    
+    public void setEventType(EventType eventType) {
+        this.eventType = eventType;
     }
     public User getUser() {
         return this.user;
@@ -100,6 +112,13 @@ public class Event  implements java.io.Serializable {
     
     public void setCreateDate(Date createDate) {
         this.createDate = createDate;
+    }
+    public String getCity() {
+        return this.city;
+    }
+    
+    public void setCity(String city) {
+        this.city = city;
     }
     public Set getUserEvents() {
         return this.userEvents;

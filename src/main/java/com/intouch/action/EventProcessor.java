@@ -55,7 +55,7 @@ public class EventProcessor extends Processor{
                     params.get("gps")[0],
                     date_time,
                     params.get("address")[0],
-                    new Date());
+                    new Date(), params.get("city")[0]);
         
         event.setDescription(params.get("description")[0]);
         dataHelper.createNewEvent(event);

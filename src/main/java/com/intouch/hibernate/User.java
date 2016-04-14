@@ -1,5 +1,5 @@
 package com.intouch.hibernate;
-// Generated 07.04.2016 17:08:53 by Hibernate Tools 4.3.1
+// Generated 14.04.2016 20:20:47 by Hibernate Tools 4.3.1
 
 
 import java.util.Date;
@@ -21,6 +21,8 @@ public class User  implements java.io.Serializable {
      private Date registrationDate;
      private Date lastVisit;
      private String token;
+     private String applicationId;
+     private String deviceId;
      private Set events = new HashSet(0);
      private Set userEvents = new HashSet(0);
      private Set userSubsesForUser = new HashSet(0);
@@ -30,7 +32,7 @@ public class User  implements java.io.Serializable {
     }
 
 	
-    public User(String firstName, String lastName, String login, String password, Date registrationDate, Date lastVisit, String token) {
+    public User(String firstName, String lastName, String login, String password, Date registrationDate, Date lastVisit, String token, String applicationId, String deviceId) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.login = login;
@@ -38,8 +40,10 @@ public class User  implements java.io.Serializable {
         this.registrationDate = registrationDate;
         this.lastVisit = lastVisit;
         this.token = token;
+        this.applicationId = applicationId;
+        this.deviceId = deviceId;
     }
-    public User(String firstName, String lastName, byte[] userImage, String login, String password, Date registrationDate, Date lastVisit, String token, Set events, Set userEvents, Set userSubsesForUser, Set userSubsesForSubscriber) {
+    public User(String firstName, String lastName, byte[] userImage, String login, String password, Date registrationDate, Date lastVisit, String token, String applicationId, String deviceId, Set events, Set userEvents, Set userSubsesForUser, Set userSubsesForSubscriber) {
        this.firstName = firstName;
        this.lastName = lastName;
        this.userImage = userImage;
@@ -48,6 +52,8 @@ public class User  implements java.io.Serializable {
        this.registrationDate = registrationDate;
        this.lastVisit = lastVisit;
        this.token = token;
+       this.applicationId = applicationId;
+       this.deviceId = deviceId;
        this.events = events;
        this.userEvents = userEvents;
        this.userSubsesForUser = userSubsesForUser;
@@ -116,6 +122,20 @@ public class User  implements java.io.Serializable {
     
     public void setToken(String token) {
         this.token = token;
+    }
+    public String getApplicationId() {
+        return this.applicationId;
+    }
+    
+    public void setApplicationId(String applicationId) {
+        this.applicationId = applicationId;
+    }
+    public String getDeviceId() {
+        return this.deviceId;
+    }
+    
+    public void setDeviceId(String deviceId) {
+        this.deviceId = deviceId;
     }
     public Set getEvents() {
         return this.events;
