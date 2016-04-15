@@ -1,18 +1,18 @@
 <?xml version="1.0"?>
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
 "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
-<!-- Generated 14.04.2016 20:20:47 by Hibernate Tools 4.3.1 -->
+<!-- Generated 15.04.2016 18:58:37 by Hibernate Tools 4.3.1 -->
 <hibernate-mapping>
     <class name="com.intouch.hibernate.UserSubs" table="user_subs" catalog="intouchdb" optimistic-lock="version">
         <id name="id" type="java.lang.Long">
             <column name="id" />
             <generator class="identity" />
         </id>
-        <many-to-one name="userByUser" class="com.intouch.hibernate.User" fetch="select">
+        <property name="user" type="long">
             <column name="user" not-null="true" />
-        </many-to-one>
-        <many-to-one name="userBySubscriber" class="com.intouch.hibernate.User" fetch="select">
+        </property>
+        <property name="subscriber" type="long">
             <column name="subscriber" not-null="true" />
-        </many-to-one>
+        </property>
     </class>
 </hibernate-mapping>

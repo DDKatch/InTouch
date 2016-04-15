@@ -9,6 +9,7 @@ import com.google.gson.Gson;
 import com.intouch.db.DataHelper;
 import com.intouch.exceptions.ServerQueryException;
 import com.intouch.hibernate.Event;
+import com.intouch.hibernate.EventType;
 import com.intouch.hibernate.User;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -28,7 +29,7 @@ public class EventProcessor extends Processor{
     @Override
     public JSONObject processRequest(Map<String, String[]> params) throws ServerQueryException{
         DataHelper dataHelper = DataHelper.getInstance();
-        User user = dataHelper.getUserByToken(params.get("token")[0]);
+        User user;
         JSONObject response;
         response = new JSONObject();
         
@@ -39,8 +40,9 @@ public class EventProcessor extends Processor{
         isParameterExist(params, "date_time");
         isParameterExist(params, "address");
         isParameterExist(params, "token");
+        isParameterExist(params, "type_id");
         isApiKeyValid(params.get("api_key")[0]);
-        
+        user = dataHelper.getUserByToken(params.get("token")[0]);
         Event event = null;
         Date date_time = null;
         try {
@@ -50,16 +52,8 @@ public class EventProcessor extends Processor{
             date_time = new Date();
         }
         
-        event = new Event(user,
-                    params.get("name")[0],
-                    params.get("gps")[0],
-                    date_time,
-                    params.get("address")[0],
-                    new Date(), params.get("city")[0]);
-        
-        event.setDescription(params.get("description")[0]);
+        event = new Event(params.get("name")[0], params.get("description")[0], params.get("gps")[0], user.getId(), date_time, params.get("address")[0], new Date(), Integer.parseInt(params.get("type_id")[0]), params.get("city")[0]);
         dataHelper.createNewEvent(event);
-        
         Gson gson = new Gson();
         response.put("result", "success");
         response.put("event", gson.toJson(event, Event.class));

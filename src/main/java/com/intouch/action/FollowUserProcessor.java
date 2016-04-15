@@ -38,8 +38,9 @@ public class FollowUserProcessor extends Processor {
         if(followedUser==null){
             throw new ServerQueryException("User '"+params.get("followed_login")[0]+"' not found.");
         }
-        UserSubs userSubs = new UserSubs(followedUser, user);
-        user.getUserSubsesForSubscriber().add(userSubs);
+        
+        UserSubs userSubs = new UserSubs(user.getId(), followedUser.getId());
+        
         DataHelper.getInstance().submitUserChanges(userSubs);
         jSONObject.put("result", "success");
         

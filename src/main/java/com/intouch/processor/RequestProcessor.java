@@ -27,7 +27,6 @@ public class RequestProcessor {
         Class cls = Class.forName(properties.getProperty(request.getParameter("method")));
         Processor processor = (Processor) cls.newInstance();
         inputStream.close();
-        
         try{
             jSONObject = processor.processRequest(request.getParameterMap());
         }     

@@ -1,5 +1,5 @@
 package com.intouch.hibernate;
-// Generated 14.04.2016 20:20:47 by Hibernate Tools 4.3.1
+// Generated 15.04.2016 18:58:37 by Hibernate Tools 4.3.1
 
 
 
@@ -10,15 +10,15 @@ public class UserSubs  implements java.io.Serializable {
 
 
      private Long id;
-     private User userByUser;
-     private User userBySubscriber;
+     private long user;
+     private long subscriber;
 
     public UserSubs() {
     }
 
-    public UserSubs(User userByUser, User userBySubscriber) {
-       this.userByUser = userByUser;
-       this.userBySubscriber = userBySubscriber;
+    public UserSubs(long user, long subscriber) {
+       this.user = user;
+       this.subscriber = subscriber;
     }
    
     public Long getId() {
@@ -28,19 +28,19 @@ public class UserSubs  implements java.io.Serializable {
     public void setId(Long id) {
         this.id = id;
     }
-    public User getUserByUser() {
-        return this.userByUser;
+    public long getUser() {
+        return this.user;
     }
     
-    public void setUserByUser(User userByUser) {
-        this.userByUser = userByUser;
+    public void setUser(long user) {
+        this.user = user;
     }
-    public User getUserBySubscriber() {
-        return this.userBySubscriber;
+    public long getSubscriber() {
+        return this.subscriber;
     }
     
-    public void setUserBySubscriber(User userBySubscriber) {
-        this.userBySubscriber = userBySubscriber;
+    public void setSubscriber(long subscriber) {
+        this.subscriber = subscriber;
     }
 
 

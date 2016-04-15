@@ -7,6 +7,7 @@
     <property name="hibernate.connection.url">jdbc:mysql://localhost:3306/intouchdb?zeroDateTimeBehavior=convertToNull</property>
     <property name="hibernate.connection.username">root</property>
     <property name="hibernate.connection.password">root</property>
+    <property name="hibernate.current_session_context_class">thread</property>
     <mapping resource="com/intouch/hibernate/User.hbm.xml"/>
     <mapping resource="com/intouch/hibernate/UserSubs.hbm.xml"/>
     <mapping resource="com/intouch/hibernate/EventType.hbm.xml"/>

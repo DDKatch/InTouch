@@ -24,7 +24,7 @@ public abstract class Processor {
     }
     
     final protected void isApiKeyValid(String api_key) throws ServerQueryException{
-        if(!api_key.equals("SHEMODED")){
+        if(!api_key.equals("SHEMODED")||api_key==null){
             throw new ServerQueryException("Invalid parameter api_key.");
         }
     }

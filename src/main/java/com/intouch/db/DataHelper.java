@@ -6,15 +6,20 @@
 package com.intouch.db;
 
 import com.intouch.hibernate.Event;
+import com.intouch.hibernate.EventType;
 import com.intouch.hibernate.HibernateUtil;
 import com.intouch.hibernate.User;
 import com.intouch.hibernate.UserSubs;
-
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Set;
 import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
+import org.hibernate.criterion.MatchMode;
 
 import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
@@ -96,22 +101,14 @@ public class DataHelper {
         transaction1.commit();
     }
     
-    public Set getEvent(String token){
+    public List<Event> getEvent(String token){
         Session session = getSession();
         session.beginTransaction();
-        User user = (User) session.createCriteria(User.class).add(Restrictions.eq("token", token)).uniqueResult();
+        Long userId = (Long)session.createCriteria(User.class).add(Restrictions.eq("token", token)).setProjection(Projections.projectionList().add(Projections.property("id"), "id")).uniqueResult();
+        List<Event> events = session.createCriteria(Event.class).add(Restrictions.eq("creator_id", userId)).list();
         session.getTransaction().commit();
         
-        return user.getUserEvents();
-    }
-    
-    public Set getUserEvents(String token){
-        Session session = getSession();
-        session.beginTransaction();
-        User user = (User) session.createCriteria(User.class).add(Restrictions.eq("token", token)).uniqueResult();
-        session.getTransaction().commit();
-        
-        return user.getUserEvents();
+        return events;
     }
     
     public void submitUserChanges(UserSubs userSubs){
@@ -128,7 +125,34 @@ public class DataHelper {
         session.getTransaction().commit();
         return event;
     }
-  
+    
+    public List<EventType> getEventTypes(){
+        Session session = getSession();
+        session.beginTransaction();
+        List<EventType> list = session.createCriteria(EventType.class).setProjection(Projections.projectionList().add(Projections.property("typeName"), "typeName").add(Projections.property("id"), "id")).setResultTransformer(Transformers.aliasToBean(EventType.class)).list();
+        session.getTransaction().commit();
+        return list;
+    }
+    
+    public List<Event> searchEvents(Map<String, Object> params){
+        Session session = getSession();
+        session.beginTransaction();
+        Criteria criteria = session.createCriteria(Event.class);
+        for(Entry<String, Object> entry: params.entrySet()){
+            if(entry.getKey().equals("name")){
+                criteria.add(Restrictions.ilike(entry.getKey(), entry.getValue().toString(), MatchMode.ANYWHERE));
+            }
+            else{
+                
+                criteria.add(Restrictions.eq(entry.getKey(), entry.getValue()));
+            }
+        }
+        List<Event> list = criteria.list();
+        session.getTransaction().commit();
+        return list;
+    }
+    
+    
 }
 
 
