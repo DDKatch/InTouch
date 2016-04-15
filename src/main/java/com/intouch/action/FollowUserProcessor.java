@@ -29,7 +29,7 @@ public class FollowUserProcessor extends Processor {
         JSONObject jSONObject = new JSONObject();
         User user;
         
-        isApiKeyValid(params.get("api_key")[0]);
+        isApiKeyValid(params.get("api_key"));
         isParameterExist(params, "token");
         isParameterExist(params, "followed_login");
         user = getUserByToken(params.get("token")[0]);

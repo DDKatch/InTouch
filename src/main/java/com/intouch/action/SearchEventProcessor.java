@@ -25,7 +25,7 @@ public class SearchEventProcessor extends Processor{
     @Override
     public JSONObject processRequest(Map<String, String[]> params) throws ServerQueryException {
         isParameterExist(params, "token");
-        isApiKeyValid(params.get("api_key")[0]);
+        isApiKeyValid(params.get("api_key"));
         Map<String, Object> parameters = new HashMap<>();
         
         if(params.get("city")!=null){
@@ -46,6 +46,9 @@ public class SearchEventProcessor extends Processor{
        // GsonBuilder b = new GsonBuilder();
         //b.registerTypeAdapterFactory(HibernateProxyTypeAdapter.FACTORY);
         Gson gson = new Gson();
+        if(null==DataHelper.getInstance().getUserByToken(params.get("token")[0])){
+            throw new ServerQueryException("User with token "+ params.get("token")[0]+"does not exist");
+        }
         List<Event> list = DataHelper.getInstance().searchEvents(parameters);
         
         JSONObject jSONObject = new JSONObject();

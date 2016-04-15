@@ -5,10 +5,12 @@
  */
 package com.intouch.db;
 
+import com.intouch.exceptions.ServerQueryException;
 import com.intouch.hibernate.Event;
 import com.intouch.hibernate.EventType;
 import com.intouch.hibernate.HibernateUtil;
 import com.intouch.hibernate.User;
+import com.intouch.hibernate.UserEvent;
 import com.intouch.hibernate.UserSubs;
 import java.util.Iterator;
 import java.util.List;
@@ -23,6 +25,7 @@ import org.hibernate.criterion.MatchMode;
 
 import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
+import org.hibernate.transform.ResultTransformer;
 
 import org.hibernate.transform.Transformers;
 
@@ -152,6 +155,40 @@ public class DataHelper {
         return list;
     }
     
+    public User getEventCreator(long eventId) throws ServerQueryException{
+        Session session = getSession();
+        session.beginTransaction();
+        Long creatorId = (Long)session.createCriteria(Event.class).add(Restrictions.eq("id", eventId)).setProjection(Projections.property("creator_id")).uniqueResult();
+        if(creatorId==null){
+            throw new ServerQueryException("Event with id "+eventId+" not found.");
+        }
+        User user = (User)session.createCriteria(User.class).add(Restrictions.eq("id", creatorId)).setProjection(
+                Projections.projectionList().add(Projections.property("id")).add(Projections.property("login")).
+                        add(Projections.property("first_name")).add(Projections.property("last_name")).
+                        add(Projections.property("last_visit")).
+                        add(Projections.property("registration_date"))
+      ).setResultTransformer(Transformers.aliasToBean(User.class)).uniqueResult();
+        session.getTransaction().commit();
+        return user;
+        
+    }
+   
+    public void addEventFollower(UserEvent userEvent){
+        Session session = getSession();
+        session.beginTransaction();
+        session.save(userEvent);
+        session.getTransaction().commit();
+    }
+    
+    public boolean isUserFollowed(Long userId, Long eventId){
+        Session session = getSession();
+        session.beginTransaction();
+        UserEvent userEvent = (UserEvent)session.createCriteria(UserEvent.class).add(Restrictions.eq("user_id", userId)).add(Restrictions.eq("event_id", eventId)).uniqueResult();
+        if(userEvent==null){
+            return false;
+        }
+        return true;
+    }
     
 }
 

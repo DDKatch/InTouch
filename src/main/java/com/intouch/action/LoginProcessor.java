@@ -28,7 +28,7 @@ public class LoginProcessor extends Processor{
         isParameterExist(params, "api_key");
         isParameterExist(params, "login");
         isParameterExist(params, "password");
-        isApiKeyValid(params.get("api_key")[0]);
+        isApiKeyValid(params.get("api_key"));
         DataHelper dataHelper = DataHelper.getInstance();
         user = dataHelper.getUser(params.get("login")[0], params.get("password")[0]);
         if(user==null){

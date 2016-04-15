@@ -36,12 +36,14 @@ public class EventProcessor extends Processor{
         isParameterExist(params, "name");
         isParameterExist(params, "description");
         isParameterExist(params, "gps");
-        isParameterExist(params, "id");
+       // isParameterExist(params, "id");
         isParameterExist(params, "date_time");
         isParameterExist(params, "address");
         isParameterExist(params, "token");
         isParameterExist(params, "type_id");
-        isApiKeyValid(params.get("api_key")[0]);
+        isParameterExist(params, "city");
+        isApiKeyValid(params.get("api_key"));
+        
         user = dataHelper.getUserByToken(params.get("token")[0]);
         Event event = null;
         Date date_time = null;

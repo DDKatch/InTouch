@@ -20,7 +20,7 @@ public class GetEventTypesProcessor extends Processor{
 
     @Override
     public JSONObject processRequest(Map<String, String[]> params) throws ServerQueryException {
-        isApiKeyValid(params.get("api_key")[0]);
+        isApiKeyValid(params.get("api_key"));
         JSONObject jSONObject = new JSONObject();
         Gson gson = new Gson();
         DataHelper dataHelper = DataHelper.getInstance();

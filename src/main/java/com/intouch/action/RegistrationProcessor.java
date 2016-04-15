@@ -33,7 +33,7 @@ public class RegistrationProcessor extends Processor {
         isParameterExist(params, "last_name");
         isParameterExist(params, "applicationId");
         isParameterExist(params, "deviceId");
-        isApiKeyValid(params.get("api_key")[0]);
+        isApiKeyValid(params.get("api_key"));
         dataHelper = DataHelper.getInstance();
         if(dataHelper.getUserByLogin(params.get("login")[0])!=null){
             throw new ServerQueryException("User with login "+ params.get("login")[0] +"already exist.");
