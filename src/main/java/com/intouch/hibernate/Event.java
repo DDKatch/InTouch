@@ -10,7 +10,7 @@ import java.util.Date;
 public class Event  implements java.io.Serializable {
 
 
-     private Long id;
+     private long id;
      private String name;
      private String description;
      private String gps;
@@ -23,17 +23,7 @@ public class Event  implements java.io.Serializable {
 
     public Event() {
     }
-
 	
-    public Event(String name, String gps, long creatorId, Date dateTime, String address, Date createDate, String city) {
-        this.name = name;
-        this.gps = gps;
-        this.creatorId = creatorId;
-        this.dateTime = dateTime;
-        this.address = address;
-        this.createDate = createDate;
-        this.city = city;
-    }
     public Event(String name, String description, String gps, long creatorId, Date dateTime, String address, Date createDate, Integer typeId, String city) {
        this.name = name;
        this.description = description;
