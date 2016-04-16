@@ -24,8 +24,8 @@ import org.json.simple.JSONObject;
  *
  * @author kachu
  */
-public class EventProcessor extends Processor{
-    
+public class UpdateEventProcessor extends Processor{
+
     @Override
     public JSONObject processRequest(Map<String, String[]> params) throws ServerQueryException{
         DataHelper dataHelper = DataHelper.getInstance();
@@ -36,27 +36,31 @@ public class EventProcessor extends Processor{
         isParameterExist(params, "name");
         isParameterExist(params, "description");
         isParameterExist(params, "gps");
-        isParameterExist(params, "id");
         isParameterExist(params, "date_time");
         isParameterExist(params, "address");
         isParameterExist(params, "token");
-        isParameterExist(params, "type_id");
         isApiKeyValid(params.get("api_key")[0]);
         user = dataHelper.getUserByToken(params.get("token")[0]);
-        Event event = null;
-        Date date_time = null;
+        
+        Date date_time;
         try {
-            date_time = new SimpleDateFormat("MMMM d, yyyy", Locale.ENGLISH).parse(params.get("date_time")[0]);
+            date_time = new SimpleDateFormat("EEE, d MMM yyyy HH:mm:ss Z", Locale.ENGLISH).parse(params.get("date_time")[0]);
         } catch (ParseException ex) {
-            Logger.getLogger(EventProcessor.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(UpdateEventProcessor.class.getName()).log(Level.SEVERE, null, ex);
             date_time = new Date();
         }
         
-        event = new Event(params.get("name")[0], params.get("description")[0], params.get("gps")[0], user.getId(), date_time, params.get("address")[0], new Date(), Integer.parseInt(params.get("type_id")[0]), params.get("city")[0]);
-        dataHelper.createNewEvent(event);
+        Event event = dataHelper.getEventByUser(user);
+        event.setName(params.get("name")[0]);
+        event.setDescription(params.get("description")[0]);
+        event.setGps(params.get("gps")[0]);
+        event.setDateTime(date_time);
+        event.setAddress(params.get("address")[0]);
+        
+        
         Gson gson = new Gson();
         response.put("result", "success");
-        response.put("event", gson.toJson(event, Event.class));
+        response.put("update event", gson.toJson(event, Event.class));
         return response;
     }
 
