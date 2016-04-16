@@ -27,14 +27,17 @@ public class RequestProcessor {
         Class cls = Class.forName(properties.getProperty(request.getParameter("method")));
         Processor processor = (Processor) cls.newInstance();
         inputStream.close();
+        
         try{
             jSONObject = processor.processRequest(request.getParameterMap());
+            processor.updateLastVisitTime(request.getParameterMap());
         }     
         catch(ServerQueryException ex){
             jSONObject = new JSONObject();
             jSONObject.put("result", "error");
             jSONObject.put("error_type", ex.getMessage());
         }
+        
         return jSONObject;
     }
 }

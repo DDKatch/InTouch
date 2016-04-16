@@ -20,10 +20,9 @@ public class LoginProcessor extends Processor{
 
     @Override
     public JSONObject processRequest(Map<String, String[]> params) throws ServerQueryException{
-        User user = null;
+        User user;
         Gson gson;
         JSONObject response;
-        response = new JSONObject();
         
         isParameterExist(params, "api_key");
         isParameterExist(params, "login");
@@ -34,7 +33,9 @@ public class LoginProcessor extends Processor{
         if(user==null){
             throw new ServerQueryException("Invalid login or password.");
         }
-
+        dataHelper.updateLastVisitTime(user.getToken());
+        user = dataHelper.getUser(params.get("login")[0], params.get("password")[0]);
+        
         gson = new Gson();
         response = new JSONObject();
         response.put("result", "success");
@@ -42,5 +43,4 @@ public class LoginProcessor extends Processor{
         return response;
     }
 
-    
 }

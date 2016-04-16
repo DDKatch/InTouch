@@ -8,6 +8,7 @@ package com.intouch.action;
 import com.intouch.db.DataHelper;
 import com.intouch.exceptions.ServerQueryException;
 import com.intouch.hibernate.User;
+import java.util.Date;
 import java.util.Map;
 import org.json.simple.JSONObject;
 
@@ -17,6 +18,7 @@ import org.json.simple.JSONObject;
  */
 public abstract class Processor {
     public abstract JSONObject processRequest(Map<String, String[]> params) throws ServerQueryException;
+    
     protected void isParameterExist(Map<String, String[]> map, String parameter) throws ServerQueryException {
         if(map.get(parameter)==null){
             throw new ServerQueryException("Parameter "+ parameter+" not found.");
@@ -40,4 +42,10 @@ public abstract class Processor {
         return user;
     }
     
+    public void updateLastVisitTime(Map<String, String[]> map) throws ServerQueryException{
+        String[] token = map.get("token");
+        if(token!=null){            
+            DataHelper.getInstance().updateLastVisitTime(token[0]);
+        }
+    }
 }
