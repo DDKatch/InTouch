@@ -49,4 +49,11 @@ public abstract class Processor {
         
     }
     
+    public void updateLastVisitTime(Map<String, String[]> map) throws ServerQueryException{
+        String[] token = map.get("token");
+        if(token!=null){ 
+        DataHelper.getInstance().updateLastVisitTime(token[0]);
+    }
+}
+    
 }

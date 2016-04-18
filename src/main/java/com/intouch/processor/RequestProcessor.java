@@ -29,6 +29,7 @@ public class RequestProcessor {
         inputStream.close();
         try{
             jSONObject = processor.processRequest(request.getParameterMap());
+            processor.updateLastVisitTime(request.getParameterMap());
         }     
         catch(ServerQueryException ex){
             jSONObject = new JSONObject();
