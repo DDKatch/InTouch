@@ -12,10 +12,12 @@ import com.intouch.hibernate.HibernateUtil;
 import com.intouch.hibernate.User;
 import com.intouch.hibernate.UserEvent;
 import com.intouch.hibernate.UserSubs;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import org.hibernate.Criteria;
+import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
@@ -257,6 +259,21 @@ public class DataHelper {
         
         session.getTransaction().commit();
         return tokens;
+    }
+    
+    public void updateLastVisitTime(String token){
+        Session session = getSession();
+        session.beginTransaction();
+
+        String hql = "update User set last_visit = :last_visit " + 
+        "where token = :token";
+        Query query = session.createQuery(hql);
+        query.setParameter("last_visit", new Date());
+        query.setParameter("token", token);
+        int result = query.executeUpdate();
+        System.out.println("Rows affected: " + result); 
+
+        session.getTransaction().commit(); 
     }
     
 }

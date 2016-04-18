@@ -9,6 +9,7 @@ import com.google.gson.Gson;
 import com.intouch.db.DataHelper;
 import com.intouch.exceptions.ServerQueryException;
 import com.intouch.hibernate.User;
+import java.util.Date;
 import java.util.Map;
 import org.json.simple.JSONObject;
 
@@ -19,12 +20,11 @@ import org.json.simple.JSONObject;
 public class LoginProcessor extends Processor{
 
     @Override
-    public JSONObject processRequest(Map<String, String[]> params) throws ServerQueryException{
-        User user = null;
+public JSONObject processRequest(Map<String, String[]> params) throws ServerQueryException{
+        User user;
         Gson gson;
         JSONObject response;
-        response = new JSONObject();
-        
+
         isParameterExist(params, "api_key");
         isParameterExist(params, "login");
         isParameterExist(params, "password");
@@ -32,8 +32,10 @@ public class LoginProcessor extends Processor{
         DataHelper dataHelper = DataHelper.getInstance();
         user = dataHelper.getUser(params.get("login")[0], params.get("password")[0]);
         if(user==null){
-            throw new ServerQueryException("Invalid login or password.");
+        throw new ServerQueryException("Invalid login or password.");
         }
+        dataHelper.updateLastVisitTime(user.getToken());
+        user.setLastVisit(new Date());
 
         gson = new Gson();
         response = new JSONObject();

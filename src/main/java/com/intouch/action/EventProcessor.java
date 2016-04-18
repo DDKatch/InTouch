@@ -13,6 +13,7 @@ import com.intouch.hibernate.User;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
@@ -59,6 +60,15 @@ public class EventProcessor extends Processor{
         response.put("result", "success");
         response.put("event", gson.toJson(event, Event.class));
         List<String> tokens = DataHelper.getInstance().getMyFollowersTokens(params.get("token")[0]);
+        Map<String, String> map = new HashMap<>();
+        
+        map.put("name", event.getName());
+        map.put("date_time", event.getName());
+        map.put("creator_fist_name", user.getFirstName());
+        map.put("creator_last_name", user.getLastName());
+        map.put("description", event.getDescription());
+        
+        sengGcmMessages(tokens, map);
         
         return response;
     }
