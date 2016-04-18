@@ -9,11 +9,11 @@ import com.google.gson.Gson;
 import com.intouch.db.DataHelper;
 import com.intouch.exceptions.ServerQueryException;
 import com.intouch.hibernate.Event;
-import com.intouch.hibernate.EventType;
 import com.intouch.hibernate.User;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.logging.Level;
@@ -36,7 +36,6 @@ public class EventProcessor extends Processor{
         isParameterExist(params, "name");
         isParameterExist(params, "description");
         isParameterExist(params, "gps");
-       // isParameterExist(params, "id");
         isParameterExist(params, "date_time");
         isParameterExist(params, "address");
         isParameterExist(params, "token");
@@ -59,6 +58,8 @@ public class EventProcessor extends Processor{
         Gson gson = new Gson();
         response.put("result", "success");
         response.put("event", gson.toJson(event, Event.class));
+        List<String> tokens = DataHelper.getInstance().getMyFollowersTokens(params.get("token")[0]);
+        
         return response;
     }
 

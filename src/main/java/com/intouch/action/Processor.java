@@ -8,6 +8,8 @@ package com.intouch.action;
 import com.intouch.db.DataHelper;
 import com.intouch.exceptions.ServerQueryException;
 import com.intouch.hibernate.User;
+import com.intouch.messages.GCM;
+import java.util.List;
 import java.util.Map;
 import org.json.simple.JSONObject;
 
@@ -38,6 +40,13 @@ public abstract class Processor {
         }
         
         return user;
+    }
+    
+    final protected void sengGcmMessages(List<String> tokens, Map<String, String> messages){
+        for(String token:tokens){
+            GCM.send1(messages, token);     
+        }
+        
     }
     
 }

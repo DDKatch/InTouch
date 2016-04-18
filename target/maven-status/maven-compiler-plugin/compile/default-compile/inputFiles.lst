@@ -15,5 +15,7 @@
 /home/vladislav/InTouch/InTouch/src/main/java/com/intouch/exceptions/ServerQueryException.java
 /home/vladislav/InTouch/InTouch/src/main/java/com/intouch/action/Processor.java
 /home/vladislav/InTouch/InTouch/src/main/java/com/intouch/action/SearchEventProcessor.java
+/home/vladislav/InTouch/InTouch/src/main/java/com/intouch/action/GetUsersEventsProcessor.java
+/home/vladislav/InTouch/InTouch/src/main/java/com/intouch/action/GetEventFollowersProcessor.java
 /home/vladislav/InTouch/InTouch/src/main/java/com/intouch/processor/RequestProcessor.java
 /home/vladislav/InTouch/InTouch/src/main/java/com/intouch/db/DataHelper.java

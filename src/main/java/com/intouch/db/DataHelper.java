@@ -12,20 +12,18 @@ import com.intouch.hibernate.HibernateUtil;
 import com.intouch.hibernate.User;
 import com.intouch.hibernate.UserEvent;
 import com.intouch.hibernate.UserSubs;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
-import java.util.Set;
 import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
+import org.hibernate.criterion.Criterion;
 import org.hibernate.criterion.MatchMode;
 
 import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
-import org.hibernate.transform.ResultTransformer;
 
 import org.hibernate.transform.Transformers;
 
@@ -59,6 +57,7 @@ public class DataHelper {
         session.beginTransaction();        
         user = (User) session.createCriteria(User.class).add(Restrictions.eq("login", login)).uniqueResult();
         session.getTransaction().commit();
+        
         return user;
     }
     
@@ -104,11 +103,14 @@ public class DataHelper {
         transaction1.commit();
     }
     
-    public List<Event> getEvent(String token){
+    public List<Event> getEvent(String token, long user_id) throws ServerQueryException{
         Session session = getSession();
         session.beginTransaction();
         Long userId = (Long)session.createCriteria(User.class).add(Restrictions.eq("token", token)).setProjection(Projections.projectionList().add(Projections.property("id"), "id")).uniqueResult();
-        List<Event> events = session.createCriteria(Event.class).add(Restrictions.eq("creator_id", userId)).list();
+        if(userId==null){
+            throw new ServerQueryException("User with token "+token+" does not exist");
+        }
+        List<Event> events = session.createCriteria(Event.class).add(Restrictions.eq("creatorId", user_id)).list();
         session.getTransaction().commit();
         
         return events;
@@ -185,9 +187,76 @@ public class DataHelper {
         session.beginTransaction();
         UserEvent userEvent = (UserEvent)session.createCriteria(UserEvent.class).add(Restrictions.eq("user_id", userId)).add(Restrictions.eq("event_id", eventId)).uniqueResult();
         if(userEvent==null){
+            session.getTransaction().commit();
             return false;
         }
+        session.getTransaction().commit();
         return true;
+    }
+    
+    public List<User> getEventFollowers(String token, long event_id) throws ServerQueryException{
+        Session session = getSession();
+        session.beginTransaction();
+        Long userId = (Long)session.createCriteria(User.class).add(Restrictions.eq("token", token)).setProjection(Projections.property("id")).uniqueResult();
+        if(userId==null){
+             throw new ServerQueryException("User with token "+token+" does not exist");
+        }
+        
+        List<UserEvent> userEventList = session.createCriteria(UserEvent.class).add(Restrictions.eq("eventId", event_id)).list();
+        
+        Criterion criterion = null;
+        
+        Criterion[] criterions = new Criterion[userEventList.size()];
+        
+        for(int i=0; i<userEventList.size(); i++){
+            criterions[i] = Restrictions.eq("id", userEventList.get(i).getUserId());
+        }
+        
+        criterion = Restrictions.or(criterions);
+        
+        List<User> users = session.createCriteria(User.class).add(criterion).setProjection(Projections.projectionList()
+                .add(Projections.property("id"), "id").add(Projections.property("login"), "login").add(Projections.property("firstName"), "firstName").
+                add(Projections.property("lastName"), "lastName").add(Projections.property("registrationDate"), "registrationDate")
+                .add(Projections.property("lastVisit"), "lastVisit")
+             ).setResultTransformer(Transformers.aliasToBean(User.class)).list();
+        
+        session.getTransaction().commit();
+        return users;
+    }
+    
+    public String getDeviceId(long id){
+        Session session = getSession();
+        session.beginTransaction();
+        String deviceId = (String)session.createCriteria(User.class).add(Restrictions.eq("id", id)).setProjection(Projections.property("deviceId")).uniqueResult();
+        session.getTransaction().commit();
+        return deviceId;
+    }
+    
+    public List<String> getMyFollowersTokens(String token) throws ServerQueryException{
+        Session session = getSession();
+        session.beginTransaction();
+        Long userId = (Long)session.createCriteria(User.class).add(Restrictions.eq("token", token)).setProjection(Projections.property("id")).uniqueResult();
+        
+        if(userId==null){
+            throw new ServerQueryException("User with token "+ token+" does not exist");
+        }
+        
+        List<UserSubs> userSubsList = session.createCriteria(UserSubs.class).add(Restrictions.eq("user", userId)).list();
+        
+        Criterion criterion = null;
+        
+        Criterion[] criterions = new Criterion[userSubsList.size()];
+        
+        for(int i=0; i<userSubsList.size(); i++){
+            criterions[i] = Restrictions.eq("id", userSubsList.get(i).getUser());
+        }
+        
+        criterion = Restrictions.or(criterions);
+        
+        List<String> tokens = session.createCriteria(User.class).add(criterion).setProjection(Projections.property("deviceId")).list();
+        
+        session.getTransaction().commit();
+        return tokens;
     }
     
 }

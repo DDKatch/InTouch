@@ -1,5 +1,6 @@
 com/intouch/db/DataHelper.class
 com/intouch/action/GetEventTypesProcessor.class
+com/intouch/action/GetEventFollowersProcessor.class
 com/intouch/exceptions/ServerQueryException.class
 com/intouch/action/LoginProcessor.class
 com/intouch/processor/RequestProcessor.class
@@ -13,6 +14,7 @@ com/intouch/hibernate/HibernateUtil.class
 com/intouch/action/RegistrationProcessor.class
 com/intouch/action/Processor.class
 com/intouch/action/EventProcessor.class
+com/intouch/action/GetUsersEventsProcessor.class
 com/intouch/servlets/RequestServlet.class
 com/intouch/hibernate/Event.class
 com/intouch/hibernate/EventType.class
