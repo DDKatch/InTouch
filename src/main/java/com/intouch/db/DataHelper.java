@@ -89,15 +89,7 @@ public class DataHelper {
         session.getTransaction().commit();
         return user;
     }
-            
-    public Event getEventByUser(User user){
-        Session session = getSession();
-        session.beginTransaction();
-        Event event = (Event) session.createCriteria(Event.class).add(Restrictions.eq("user", user)).uniqueResult();
-        session.getTransaction().commit();
-        return event;
-    }
-        
+                
     public void createNewEvent(Event event){
         Session session = getSession();
         Transaction transaction1 = session.beginTransaction();
@@ -124,15 +116,7 @@ public class DataHelper {
         session.save(userSubs);
         session.getTransaction().commit();
     }
-    
-    public Event getEventById(Long id){
-        Session session = getSession();
-        session.beginTransaction();
-        Event event = (Event) session.createCriteria(Event.class).add(Restrictions.eq("id", id)).uniqueResult();
-        session.getTransaction().commit();
-        return event;
-    }
-    
+        
     public List<EventType> getEventTypes(){
         Session session = getSession();
         session.beginTransaction();
@@ -162,16 +146,12 @@ public class DataHelper {
     public User getEventCreator(long eventId) throws ServerQueryException{
         Session session = getSession();
         session.beginTransaction();
-        Long creatorId = (Long)session.createCriteria(Event.class).add(Restrictions.eq("id", eventId)).setProjection(Projections.property("creator_id")).uniqueResult();
+        Long creatorId = (Long)session.createCriteria(Event.class).add(Restrictions.eq("id", eventId)).setProjection(Projections.property("creatorId")).uniqueResult();
         if(creatorId==null){
             throw new ServerQueryException("Event with id "+eventId+" not found.");
         }
-        User user = (User)session.createCriteria(User.class).add(Restrictions.eq("id", creatorId)).setProjection(
-                Projections.projectionList().add(Projections.property("id")).add(Projections.property("login")).
-                        add(Projections.property("first_name")).add(Projections.property("last_name")).
-                        add(Projections.property("last_visit")).
-                        add(Projections.property("registration_date"))
-      ).setResultTransformer(Transformers.aliasToBean(User.class)).uniqueResult();
+        User user = (User)session.createCriteria(User.class).add(Restrictions.eq("id", creatorId)).uniqueResult();
+                
         session.getTransaction().commit();
         return user;
         
@@ -268,16 +248,30 @@ public class DataHelper {
         String hql = "update User set last_visit = :last_visit " + 
         "where token = :token";
         Query query = session.createQuery(hql);
+        
         query.setParameter("last_visit", new Date());
         query.setParameter("token", token);
+        
         int result = query.executeUpdate();
         System.out.println("Rows affected: " + result); 
 
         session.getTransaction().commit(); 
     }
     
+    public void saveEventChanges(Event event){
+        Session session = getSession();
+        session.beginTransaction();
+        session.saveOrUpdate(event.getId().toString(), event);
+        session.getTransaction().commit(); 
+    }
+    
+    public Event getEventById(Long id){
+        Session session = getSession();
+        session.beginTransaction();
+        Event event = (Event) session.createCriteria(Event.class).add(Restrictions.eq("id", id)).uniqueResult();
+        session.getTransaction().commit();
+        return event;
+    }
+    
 }
 
-
-    
-    

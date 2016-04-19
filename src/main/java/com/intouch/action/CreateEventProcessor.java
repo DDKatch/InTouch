@@ -40,7 +40,12 @@ public class CreateEventProcessor extends Processor{
         isParameterExist(params, "token");
         isParameterExist(params, "type_id");
         isApiKeyValid(params.get("api_key"));
+        
         user = dataHelper.getUserByToken(params.get("token")[0]);
+        if(user==null){
+            throw new ServerQueryException("Invalid token");
+        }
+        
         Date date_time;
         
         try { 
