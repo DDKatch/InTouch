@@ -24,7 +24,6 @@ import org.json.simple.JSONObject;
  * @author kachu
  */
 public class UpdateEventProcessor extends Processor{
-    //http://localhost:8080/InTouch/RequestServlet?method=updateEvent&event_id=3&name=third&description=azazazaz&gps=123.123.123&date_time=Wed,%204%20Jul%202001%2012:08:56%20-0700&address=miu&token=token&type_id=1&api_key=SHEMODED&city=%22Gomel%22
     @Override
     public JSONObject processRequest(Map<String, String[]> params) throws ServerQueryException{
         DataHelper dataHelper = DataHelper.getInstance();
@@ -63,7 +62,7 @@ public class UpdateEventProcessor extends Processor{
                 date_time = new SimpleDateFormat("EEE, d MMM yyyy HH:mm:ss Z", Locale.ENGLISH).parse(params.get("date_time")[0]);
             } catch (ParseException ex) {
                 Logger.getLogger(UpdateEventProcessor.class.getName()).log(Level.SEVERE, null, ex);
-                throw new ServerQueryException("invalid date format");
+                throw new ServerQueryException("Invalid date format");
             }
             
             Event event = dataHelper.getEventById(Long.parseLong(params.get("event_id")[0]));   
