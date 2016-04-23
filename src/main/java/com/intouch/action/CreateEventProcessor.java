@@ -25,7 +25,7 @@ import org.json.simple.JSONObject;
  *
  * @author kachu
  */
-public class EventProcessor extends Processor{
+public class CreateEventProcessor extends Processor{
     
     @Override
     public JSONObject processRequest(Map<String, String[]> params) throws ServerQueryException{
@@ -41,23 +41,31 @@ public class EventProcessor extends Processor{
         isParameterExist(params, "address");
         isParameterExist(params, "token");
         isParameterExist(params, "type_id");
+<<<<<<< HEAD:src/main/java/com/intouch/action/EventProcessor.java
         isParameterExist(params, "city");
+=======
+>>>>>>> 59641fa9d3b6dfa234e093d09ed59d83648b38a5:src/main/java/com/intouch/action/CreateEventProcessor.java
         isApiKeyValid(params.get("api_key"));
         
         user = dataHelper.getUserByToken(params.get("token")[0]);
-        Event event = null;
-        Date date_time = null;
-        try {
-            date_time = new SimpleDateFormat("MMMM d, yyyy", Locale.ENGLISH).parse(params.get("date_time")[0]);
-        } catch (ParseException ex) {
-            Logger.getLogger(EventProcessor.class.getName()).log(Level.SEVERE, null, ex);
-            date_time = new Date();
+        if(user==null){
+            throw new ServerQueryException("Invalid token");
         }
         
-        event = new Event(params.get("name")[0], params.get("description")[0], params.get("gps")[0], user.getId(), date_time, params.get("address")[0], new Date(), Integer.parseInt(params.get("type_id")[0]), params.get("city")[0]);
+        Date date_time;
+        
+        try { 
+            date_time = new SimpleDateFormat("EEE, d MMM yyyy HH:mm:ss Z", Locale.ENGLISH).parse(params.get("date_time")[0]);
+        } catch (ParseException ex) {
+            Logger.getLogger(CreateEventProcessor.class.getName()).log(Level.SEVERE, null, ex);
+            throw new ServerQueryException("invalid date format");
+        }
+        
+        Event event = new Event(params.get("name")[0], params.get("description")[0], params.get("gps")[0], user.getId(), date_time, params.get("address")[0], new Date(), Integer.parseInt(params.get("type_id")[0]), params.get("city")[0]);
         dataHelper.createNewEvent(event);
         Gson gson = new Gson();
         response.put("result", "success");
+<<<<<<< HEAD:src/main/java/com/intouch/action/EventProcessor.java
         response.put("event", gson.toJson(event, Event.class));
         List<String> tokens = DataHelper.getInstance().getMyFollowersTokens(params.get("token")[0]);
         Map<String, String> map = new HashMap<>();
@@ -70,7 +78,9 @@ public class EventProcessor extends Processor{
         
         sengGcmMessages(tokens, map);
         
+=======
+        response.put("create event", gson.toJson(event, Event.class));
+>>>>>>> 59641fa9d3b6dfa234e093d09ed59d83648b38a5:src/main/java/com/intouch/action/CreateEventProcessor.java
         return response;
     }
-
 }
