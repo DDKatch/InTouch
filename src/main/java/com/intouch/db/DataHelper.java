@@ -6,6 +6,7 @@
 package com.intouch.db;
 
 import com.intouch.exceptions.ServerQueryException;
+import com.intouch.hibernate.Comments;
 import com.intouch.hibernate.Event;
 import com.intouch.hibernate.EventType;
 import com.intouch.hibernate.HibernateUtil;
@@ -110,6 +111,7 @@ public class DataHelper {
         session.beginTransaction();
         Long userId = (Long)session.createCriteria(User.class).add(Restrictions.eq("token", token)).setProjection(Projections.projectionList().add(Projections.property("id"), "id")).uniqueResult();
         if(userId==null){
+            session.getTransaction().commit();
             throw new ServerQueryException("User with token "+token+" does not exist");
         }
         List<Event> events = session.createCriteria(Event.class).add(Restrictions.eq("creatorId", user_id)).list();
@@ -162,15 +164,16 @@ public class DataHelper {
     public User getEventCreator(long eventId) throws ServerQueryException{
         Session session = getSession();
         session.beginTransaction();
-        Long creatorId = (Long)session.createCriteria(Event.class).add(Restrictions.eq("id", eventId)).setProjection(Projections.property("creator_id")).uniqueResult();
+        Long creatorId = (Long)session.createCriteria(Event.class).add(Restrictions.eq("id", eventId)).setProjection(Projections.property("creatorId")).uniqueResult();
         if(creatorId==null){
+            session.getTransaction().commit();
             throw new ServerQueryException("Event with id "+eventId+" not found.");
         }
         User user = (User)session.createCriteria(User.class).add(Restrictions.eq("id", creatorId)).setProjection(
                 Projections.projectionList().add(Projections.property("id")).add(Projections.property("login")).
-                        add(Projections.property("first_name")).add(Projections.property("last_name")).
-                        add(Projections.property("last_visit")).
-                        add(Projections.property("registration_date"))
+                        add(Projections.property("firstName")).add(Projections.property("lastName")).
+                        add(Projections.property("lastVisit")).
+                        add(Projections.property("registrationDate"))
       ).setResultTransformer(Transformers.aliasToBean(User.class)).uniqueResult();
         session.getTransaction().commit();
         return user;
@@ -201,6 +204,7 @@ public class DataHelper {
         session.beginTransaction();
         Long userId = (Long)session.createCriteria(User.class).add(Restrictions.eq("token", token)).setProjection(Projections.property("id")).uniqueResult();
         if(userId==null){
+            session.getTransaction().commit();
              throw new ServerQueryException("User with token "+token+" does not exist");
         }
         
@@ -240,6 +244,7 @@ public class DataHelper {
         Long userId = (Long)session.createCriteria(User.class).add(Restrictions.eq("token", token)).setProjection(Projections.property("id")).uniqueResult();
         
         if(userId==null){
+            session.getTransaction().commit();
             throw new ServerQueryException("User with token "+ token+" does not exist");
         }
         
@@ -274,6 +279,18 @@ public class DataHelper {
         System.out.println("Rows affected: " + result); 
 
         session.getTransaction().commit(); 
+    }
+    
+    public void setComment(String token, String comment, long eventId) throws ServerQueryException{
+        Session session = getSession();
+        session.beginTransaction();
+        Long userId = (Long)session.createCriteria(User.class).add(Restrictions.eq("token", token)).setProjection(Projections.property("id")).uniqueResult();
+        if(userId==null){
+            throw new ServerQueryException("User with token "+ token+" was not found");
+        }
+        Comments comments = new Comments(userId, eventId);
+        session.save(comments);
+        session.getTransaction().commit();     
     }
     
 }

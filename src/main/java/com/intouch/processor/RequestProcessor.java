@@ -6,6 +6,7 @@
 package com.intouch.processor;
 
 import com.intouch.action.Processor;
+import com.intouch.db.DataHelper;
 import com.intouch.exceptions.ServerQueryException;
 import java.io.InputStream;
 import java.util.Properties;
@@ -35,6 +36,14 @@ public class RequestProcessor {
             jSONObject = new JSONObject();
             jSONObject.put("result", "error");
             jSONObject.put("error_type", ex.getMessage());
+        }
+        catch(Exception ex){
+            jSONObject = new JSONObject();
+            jSONObject.put("result", "error");
+            jSONObject.put("error_type", ex.getMessage());
+            if(!DataHelper.getInstance().getSession().getTransaction().wasCommitted()){
+                DataHelper.getInstance().getSession().getTransaction().commit();
+            }
         }
         return jSONObject;
     }

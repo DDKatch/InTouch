@@ -38,7 +38,8 @@ public class RegistrationProcessor extends Processor {
         if(dataHelper.getUserByLogin(params.get("login")[0])!=null){
             throw new ServerQueryException("User with login "+ params.get("login")[0] +"already exist.");
         }
-        User user = new User(params.get("first_name")[0], params.get("last_name")[0], params.get("login")[0], params.get("password")[0], new Date(), new Date(), UUID.randomUUID().toString(), params.get("applicationId")[0], params.get("deviceId")[0]);
+        User user = new User(params.get("first_name")[0], params.get("last_name")[0], params.get("login")[0], params.get("password")[0], new Date(), new Date(), UUID.randomUUID().toString(), params.get("deviceId")[0]);
+        user.setApplicationId(params.get("applicationId")[0]);
         dataHelper.createNewUser(user);
         
         Gson gson = new Gson();

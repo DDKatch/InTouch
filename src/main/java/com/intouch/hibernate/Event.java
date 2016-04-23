@@ -1,5 +1,5 @@
 package com.intouch.hibernate;
-// Generated 15.04.2016 18:58:37 by Hibernate Tools 4.3.1
+// Generated 19.04.2016 15:45:16 by Hibernate Tools 4.3.1
 
 
 import java.util.Date;

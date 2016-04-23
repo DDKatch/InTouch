@@ -1,6 +1,7 @@
 /home/vladislav/InTouch/InTouch/src/main/java/com/intouch/hibernate/UserSubs.java
 /home/vladislav/InTouch/InTouch/src/main/java/com/intouch/hibernate/UserEvent.java
 /home/vladislav/InTouch/InTouch/src/main/java/com/intouch/action/LoginProcessor.java
+/home/vladislav/InTouch/InTouch/src/main/java/com/intouch/action/CreateCommentProcessor.java
 /home/vladislav/InTouch/InTouch/src/main/java/com/intouch/action/FollowEventProcessor.java
 /home/vladislav/InTouch/InTouch/src/main/java/com/intouch/action/GetEventTypesProcessor.java
 /home/vladislav/InTouch/InTouch/src/main/java/com/intouch/action/EventProcessor.java
@@ -17,6 +18,7 @@
 /home/vladislav/InTouch/InTouch/src/main/java/com/intouch/action/SearchEventProcessor.java
 /home/vladislav/InTouch/InTouch/src/main/java/com/intouch/action/GetUsersEventsProcessor.java
 /home/vladislav/InTouch/InTouch/src/main/java/com/intouch/action/GetEventFollowersProcessor.java
+/home/vladislav/InTouch/InTouch/src/main/java/com/intouch/hibernate/Comments.java
 /home/vladislav/InTouch/InTouch/src/main/java/com/intouch/processor/RequestProcessor.java
 /home/vladislav/InTouch/InTouch/src/main/java/com/intouch/db/DataHelper.java
 /home/vladislav/InTouch/InTouch/src/main/java/com/intouch/messages/GCM.java

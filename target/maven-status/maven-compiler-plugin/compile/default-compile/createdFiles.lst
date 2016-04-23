@@ -11,11 +11,14 @@ com/intouch/action/FollowEventProcessor.class
 com/intouch/action/GetEventCreatorProcessor.class
 com/intouch/action/FollowUserProcessor.class
 com/intouch/hibernate/HibernateUtil.class
+com/intouch/action/CreateCommentProcessor.class
 com/intouch/action/RegistrationProcessor.class
 com/intouch/action/Processor.class
 com/intouch/action/EventProcessor.class
+com/intouch/messages/GCM.class
 com/intouch/action/GetUsersEventsProcessor.class
 com/intouch/servlets/RequestServlet.class
 com/intouch/hibernate/Event.class
+com/intouch/hibernate/Comments.class
 com/intouch/hibernate/EventType.class
 com/intouch/hibernate/User.class
