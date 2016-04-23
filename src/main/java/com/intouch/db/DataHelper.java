@@ -90,15 +90,7 @@ public class DataHelper {
         session.getTransaction().commit();
         return user;
     }
-            
-    public Event getEventByUser(User user){
-        Session session = getSession();
-        session.beginTransaction();
-        Event event = (Event) session.createCriteria(Event.class).add(Restrictions.eq("user", user)).uniqueResult();
-        session.getTransaction().commit();
-        return event;
-    }
-        
+                
     public void createNewEvent(Event event){
         Session session = getSession();
         Transaction transaction1 = session.beginTransaction();
@@ -169,12 +161,8 @@ public class DataHelper {
             session.getTransaction().commit();
             throw new ServerQueryException("Event with id "+eventId+" not found.");
         }
-        User user = (User)session.createCriteria(User.class).add(Restrictions.eq("id", creatorId)).setProjection(
-                Projections.projectionList().add(Projections.property("id")).add(Projections.property("login")).
-                        add(Projections.property("firstName")).add(Projections.property("lastName")).
-                        add(Projections.property("lastVisit")).
-                        add(Projections.property("registrationDate"))
-      ).setResultTransformer(Transformers.aliasToBean(User.class)).uniqueResult();
+        User user = (User)session.createCriteria(User.class).add(Restrictions.eq("id", creatorId)).uniqueResult();
+                
         session.getTransaction().commit();
         return user;
         
@@ -205,7 +193,7 @@ public class DataHelper {
         Long userId = (Long)session.createCriteria(User.class).add(Restrictions.eq("token", token)).setProjection(Projections.property("id")).uniqueResult();
         if(userId==null){
             session.getTransaction().commit();
-             throw new ServerQueryException("User with token "+token+" does not exist");
+            throw new ServerQueryException("User with token "+token+" does not exist");
         }
         
         List<UserEvent> userEventList = session.createCriteria(UserEvent.class).add(Restrictions.eq("eventId", event_id)).list();
@@ -273,14 +261,23 @@ public class DataHelper {
         String hql = "update User set last_visit = :last_visit " + 
         "where token = :token";
         Query query = session.createQuery(hql);
+        
         query.setParameter("last_visit", new Date());
         query.setParameter("token", token);
+        
         int result = query.executeUpdate();
         System.out.println("Rows affected: " + result); 
 
         session.getTransaction().commit(); 
     }
     
+    public void saveEventChanges(Event event){
+        Session session = getSession();
+        session.beginTransaction();
+        session.saveOrUpdate(event.getId().toString(), event);
+        session.getTransaction().commit(); 
+    }
+
     public void setComment(String token, String comment, long eventId) throws ServerQueryException{
         Session session = getSession();
         session.beginTransaction();
@@ -292,9 +289,6 @@ public class DataHelper {
         session.save(comments);
         session.getTransaction().commit();     
     }
-    
+       
 }
 
-
-    
-    

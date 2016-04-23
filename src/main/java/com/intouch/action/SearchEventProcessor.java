@@ -36,8 +36,8 @@ public class SearchEventProcessor extends Processor{
             parameters.put("name", params.get("eventName")[0]);
         }
         
-        if(params.get("typeId")!=null){
-            parameters.put("typeId", Integer.parseInt(params.get("typeId")[0]));
+        if(params.get("type_id")!=null){
+            parameters.put("typeId", params.get("type_id")[0]);
         }
         if(parameters.size()==0){
             throw new ServerQueryException("No parameters to search.");
