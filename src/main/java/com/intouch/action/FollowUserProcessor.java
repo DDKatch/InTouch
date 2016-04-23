@@ -7,15 +7,9 @@ package com.intouch.action;
 
 import com.intouch.db.DataHelper;
 import com.intouch.exceptions.ServerQueryException;
-import com.intouch.hibernate.Event;
 import com.intouch.hibernate.User;
-import com.intouch.hibernate.UserEvent;
 import com.intouch.hibernate.UserSubs;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
 import java.util.Map;
-import org.hibernate.Session;
 import org.json.simple.JSONObject;
 
 /**

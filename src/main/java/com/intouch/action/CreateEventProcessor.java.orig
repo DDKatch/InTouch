@@ -42,7 +42,14 @@ public class CreateEventProcessor extends Processor{
         isParameterExist(params, "address");
         isParameterExist(params, "token");
         isParameterExist(params, "type_id");
+<<<<<<< HEAD
+<<<<<<< HEAD:src/main/java/com/intouch/action/EventProcessor.java
         isParameterExist(params, "city");
+=======
+>>>>>>> 59641fa9d3b6dfa234e093d09ed59d83648b38a5:src/main/java/com/intouch/action/CreateEventProcessor.java
+=======
+        isParameterExist(params, "city");
+>>>>>>> processors
         isApiKeyValid(params.get("api_key"));
         
         user = dataHelper.getUserByToken(params.get("token")[0]);
@@ -63,7 +70,12 @@ public class CreateEventProcessor extends Processor{
         dataHelper.createNewEvent(event);
         Gson gson = new Gson();
         response.put("result", "success");
+<<<<<<< HEAD
+<<<<<<< HEAD:src/main/java/com/intouch/action/EventProcessor.java
+        response.put("event", gson.toJson(event, Event.class));
+=======
         response.put("create event", gson.toJson(event, Event.class));
+>>>>>>> processors
         List<String> tokens = DataHelper.getInstance().getMyFollowersTokens(params.get("token")[0]);
         Map<String, String> map = new HashMap<>();
         
@@ -75,6 +87,12 @@ public class CreateEventProcessor extends Processor{
         
         sengGcmMessages(tokens, map);
         
+<<<<<<< HEAD
+=======
+        response.put("create event", gson.toJson(event, Event.class));
+>>>>>>> 59641fa9d3b6dfa234e093d09ed59d83648b38a5:src/main/java/com/intouch/action/CreateEventProcessor.java
+=======
+>>>>>>> processors
         return response;
     }
 

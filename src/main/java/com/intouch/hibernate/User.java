@@ -1,5 +1,5 @@
 package com.intouch.hibernate;
-// Generated 15.04.2016 18:58:37 by Hibernate Tools 4.3.1
+// Generated 19.04.2016 15:45:16 by Hibernate Tools 4.3.1
 
 
 import java.util.Date;
@@ -19,14 +19,14 @@ public class User  implements java.io.Serializable {
      private Date registrationDate;
      private Date lastVisit;
      private String token;
-     private String applicationId;
      private String deviceId;
+     private String applicationId;
 
     public User() {
     }
 
 	
-    public User(String firstName, String lastName, String login, String password, Date registrationDate, Date lastVisit, String token, String applicationId, String deviceId) {
+    public User(String firstName, String lastName, String login, String password, Date registrationDate, Date lastVisit, String token, String deviceId) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.login = login;
@@ -34,10 +34,9 @@ public class User  implements java.io.Serializable {
         this.registrationDate = registrationDate;
         this.lastVisit = lastVisit;
         this.token = token;
-        this.applicationId = applicationId;
         this.deviceId = deviceId;
     }
-    public User(String firstName, String lastName, byte[] userImage, String login, String password, Date registrationDate, Date lastVisit, String token, String applicationId, String deviceId) {
+    public User(String firstName, String lastName, byte[] userImage, String login, String password, Date registrationDate, Date lastVisit, String token, String deviceId, String applicationId) {
        this.firstName = firstName;
        this.lastName = lastName;
        this.userImage = userImage;
@@ -46,8 +45,8 @@ public class User  implements java.io.Serializable {
        this.registrationDate = registrationDate;
        this.lastVisit = lastVisit;
        this.token = token;
-       this.applicationId = applicationId;
        this.deviceId = deviceId;
+       this.applicationId = applicationId;
     }
    
     public Long getId() {
@@ -113,19 +112,19 @@ public class User  implements java.io.Serializable {
     public void setToken(String token) {
         this.token = token;
     }
-    public String getApplicationId() {
-        return this.applicationId;
-    }
-    
-    public void setApplicationId(String applicationId) {
-        this.applicationId = applicationId;
-    }
     public String getDeviceId() {
         return this.deviceId;
     }
     
     public void setDeviceId(String deviceId) {
         this.deviceId = deviceId;
+    }
+    public String getApplicationId() {
+        return this.applicationId;
+    }
+    
+    public void setApplicationId(String applicationId) {
+        this.applicationId = applicationId;
     }
 
 
