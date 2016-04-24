@@ -188,7 +188,7 @@ public class DataHelper {
     public boolean isUserFollowed(Long userId, Long eventId){
         Session session = getSession();
         session.beginTransaction();
-        UserEvent userEvent = (UserEvent)session.createCriteria(UserEvent.class).add(Restrictions.eq("user_id", userId)).add(Restrictions.eq("event_id", eventId)).uniqueResult();
+        UserEvent userEvent = (UserEvent)session.createCriteria(UserEvent.class).add(Restrictions.eq("userId", userId)).add(Restrictions.eq("eventId", eventId)).uniqueResult();
         if(userEvent==null){
             session.getTransaction().commit();
             return false;

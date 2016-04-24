@@ -25,7 +25,15 @@ public class RequestProcessor {
         Properties properties = new Properties();
        
         properties.load(inputStream);
-        Class cls = Class.forName(properties.getProperty(request.getParameter("method")));
+        String className = properties.getProperty(request.getParameter("method"));
+        if(className==null){
+            jSONObject = new JSONObject();
+            jSONObject.put("result", "error");
+            jSONObject.put("error_type", "Method "+ request.getParameter("method")+" no found.");
+            return jSONObject;
+        }
+    
+        Class cls = Class.forName(className);
         Processor processor = (Processor) cls.newInstance();
         inputStream.close();
         try{
