@@ -38,7 +38,7 @@ public class RequestServlet extends HttpServlet {
         RequestProcessor rp = new RequestProcessor();
         ServletOutputStream servletOutputStream = response.getOutputStream();
         try {
-            servletOutputStream.write(rp.processRequest(request).toString().getBytes());
+        servletOutputStream.write(rp.processRequest(request).toString().getBytes());
         } catch (Exception ex) {
             Logger.getLogger(RequestServlet.class.getName()).log(Level.SEVERE, null, ex);
         }

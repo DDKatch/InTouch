@@ -23,7 +23,7 @@ public class RequestProcessor {
         JSONObject jSONObject;
         InputStream inputStream = request.getServletContext().getResourceAsStream("/WEB-INF/prop.properties");
         Properties properties = new Properties();
-        String str = request.getContextPath();
+       
         properties.load(inputStream);
         Class cls = Class.forName(properties.getProperty(request.getParameter("method")));
         Processor processor = (Processor) cls.newInstance();

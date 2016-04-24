@@ -13,6 +13,8 @@ import com.intouch.hibernate.HibernateUtil;
 import com.intouch.hibernate.User;
 import com.intouch.hibernate.UserEvent;
 import com.intouch.hibernate.UserSubs;
+import com.sun.javafx.scene.control.skin.VirtualFlow;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -206,6 +208,11 @@ public class DataHelper {
         
         List<UserEvent> userEventList = session.createCriteria(UserEvent.class).add(Restrictions.eq("eventId", event_id)).list();
         
+        if(userEventList.size()==0){
+            session.getTransaction().commit();
+            return new ArrayList<User>();
+        }
+        
         Criterion criterion = null;
         
         Criterion[] criterions = new Criterion[userEventList.size()];
@@ -245,6 +252,11 @@ public class DataHelper {
         }
         
         List<UserSubs> userSubsList = session.createCriteria(UserSubs.class).add(Restrictions.eq("user", userId)).list();
+        
+        if(userSubsList.size()==0){
+            session.getTransaction().commit();
+            return new ArrayList<String>();
+        }
         
         Criterion criterion = null;
         
@@ -296,6 +308,94 @@ public class DataHelper {
         Comments comments = new Comments(userId, eventId);
         session.save(comments);
         session.getTransaction().commit();     
+    }
+    
+    public void unfollowEvent(long userId, long eventId) throws ServerQueryException{
+        Session session = getSession();
+        session.beginTransaction();
+        UserEvent userEvent = (UserEvent)session.createCriteria(UserEvent.class).add(Restrictions.eq("userId", userId)).add(Restrictions.eq("eventId", eventId)).uniqueResult();
+        
+        if(userEvent==null){
+            session.getTransaction().commit();
+            throw new ServerQueryException("You allready unfollow this event.");
+        }
+        
+        session.delete(userEvent);
+        session.getTransaction().commit();
+    }
+    
+    public List<Event> getEventsThatUserFollow(long userId){
+        Session session = getSession();
+        session.beginTransaction();
+        List<UserEvent> userEvents = session.createCriteria(UserEvent.class).add(Restrictions.eq("userId", userId)).list();
+        
+        if(userEvents==null){
+            session.getTransaction().commit();
+            return new ArrayList<Event>();
+        }
+        
+        Criterion criterion = null;
+        
+        Criterion[] criterions = new Criterion[userEvents.size()];
+        
+        for(int i=0; i<userEvents.size(); i++){
+            criterions[i] = Restrictions.eq("id", userEvents.get(i).getEventId());
+        }
+        
+        criterion = Restrictions.or(criterions);
+        
+        List<Event> events = session.createCriteria(Event.class).add(criterion).list();
+        session.getTransaction().commit();
+        return events;
+    }
+    
+    public User getUserById(long userId){
+        Session session = getSession();
+        session.beginTransaction();
+        
+        User user = (User)session.createCriteria(User.class).add(Restrictions.eq("id", userId)).setProjection(Projections.projectionList()
+                .add(Projections.property("id"), "id").add(Projections.property("login"), "login").add(Projections.property("firstName"), "firstName").
+                add(Projections.property("lastName"), "lastName").add(Projections.property("registrationDate"), "registrationDate")
+                .add(Projections.property("lastVisit"), "lastVisit")
+             ).setResultTransformer(Transformers.aliasToBean(User.class)).uniqueResult();
+        session.getTransaction().commit();
+        
+        return user;
+    }
+    
+    public List<User> getUserFollowers(long userId, String followType){
+        Session session = getSession();
+        session.beginTransaction();
+        List<UserSubs> userSubss = session.createCriteria(UserSubs.class).add(Restrictions.eq(followType, userId)).list();
+        
+        if(userSubss==null){
+            session.getTransaction().commit();
+            return new ArrayList<User>();
+        }
+        
+        Criterion criterion = null;
+        Criterion[] criterions = new Criterion[userSubss.size()];
+        
+        for(int i=0; i<userSubss.size(); i++){
+            if(followType.equals("user")){
+                criterions[i] = Restrictions.eq("id", userSubss.get(i).getSubscriber());
+            }
+            else{
+                criterions[i] = Restrictions.eq("id", userSubss.get(i).getUser());
+            }
+        }
+        
+        criterion = Restrictions.or(criterions);
+        
+        List<User> users = session.createCriteria(User.class).add(criterion).setProjection(Projections.projectionList()
+                .add(Projections.property("id"), "id").add(Projections.property("login"), "login").add(Projections.property("firstName"), "firstName").
+                add(Projections.property("lastName"), "lastName").add(Projections.property("registrationDate"), "registrationDate")
+                .add(Projections.property("lastVisit"), "lastVisit")
+             ).setResultTransformer(Transformers.aliasToBean(User.class)).list();
+        
+        session.getTransaction().commit();
+        return users;
+        
     }
        
 }
