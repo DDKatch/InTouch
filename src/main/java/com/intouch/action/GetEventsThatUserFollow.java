@@ -33,7 +33,7 @@ public class GetEventsThatUserFollow extends Processor{
         JSONObject jSONObject = new JSONObject();
         
         jSONObject.put("result", "success");
-        jSONObject.put("events", new Gson().toJson(DataHelper.getInstance().getEventsThatUserFollow(user.getId())));
+        jSONObject.put("events", new Gson().toJson(DataHelper.getInstance().getEventsThatUserFollow(Long.parseLong(params.get("user_id")[0]))));
         return jSONObject;
     }
     

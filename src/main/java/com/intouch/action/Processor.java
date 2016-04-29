@@ -42,6 +42,8 @@ public abstract class Processor {
         return user;
     }
     
+    
+    
     final protected void sengGcmMessages(List<String> tokens, Map<String, String> messages){
         for(String token:tokens){
             GCM.send1(messages, token);     

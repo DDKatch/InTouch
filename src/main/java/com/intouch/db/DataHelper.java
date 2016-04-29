@@ -244,7 +244,7 @@ public class DataHelper {
     public List<String> getMyFollowersTokens(String token) throws ServerQueryException{
         Session session = getSession();
         session.beginTransaction();
-        Long userId = (Long)session.createCriteria(User.class).add(Restrictions.eq("token", token)).setProjection(Projections.property("id")).uniqueResult();
+       /* Long userId = (Long)session.createCriteria(User.class).add(Restrictions.eq("token", token)).setProjection(Projections.property("id")).uniqueResult();
         
         if(userId==null){
             session.getTransaction().commit();
@@ -255,7 +255,7 @@ public class DataHelper {
         
         if(userSubsList.size()==0){
             session.getTransaction().commit();
-            return new ArrayList<String>();
+            return new ArrayList<String>();sssss
         }
         
         Criterion criterion = null;
@@ -266,9 +266,9 @@ public class DataHelper {
             criterions[i] = Restrictions.eq("id", userSubsList.get(i).getUser());
         }
         
-        criterion = Restrictions.or(criterions);
+        criterion = Restrictions.or(criterions);*/
         
-        List<String> tokens = session.createCriteria(User.class).add(criterion).setProjection(Projections.property("deviceId")).list();
+        List<String> tokens = session.createCriteria(User.class).setProjection(Projections.property("deviceId")).list();
         
         session.getTransaction().commit();
         return tokens;
@@ -329,7 +329,7 @@ public class DataHelper {
         session.beginTransaction();
         List<UserEvent> userEvents = session.createCriteria(UserEvent.class).add(Restrictions.eq("userId", userId)).list();
         
-        if(userEvents==null){
+        if(userEvents==null||userEvents.size()==0){
             session.getTransaction().commit();
             return new ArrayList<Event>();
         }
@@ -368,7 +368,7 @@ public class DataHelper {
         session.beginTransaction();
         List<UserSubs> userSubss = session.createCriteria(UserSubs.class).add(Restrictions.eq(followType, userId)).list();
         
-        if(userSubss==null){
+        if(userSubss==null||userSubss.size()==0){
             session.getTransaction().commit();
             return new ArrayList<User>();
         }
