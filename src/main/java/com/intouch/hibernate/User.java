@@ -1,5 +1,5 @@
 package com.intouch.hibernate;
-// Generated 19.04.2016 15:45:16 by Hibernate Tools 4.3.1
+// Generated 01.05.2016 17:29:52 by Hibernate Tools 4.3.1
 
 
 import java.util.Date;
@@ -13,7 +13,7 @@ public class User  implements java.io.Serializable {
      private Long id;
      private String firstName;
      private String lastName;
-     private byte[] userImage;
+     private String userImage;
      private String login;
      private String password;
      private Date registrationDate;
@@ -21,6 +21,9 @@ public class User  implements java.io.Serializable {
      private String token;
      private String deviceId;
      private String applicationId;
+     private String email;
+     private String skype;
+     private String phone;
 
     public User() {
     }
@@ -36,7 +39,7 @@ public class User  implements java.io.Serializable {
         this.token = token;
         this.deviceId = deviceId;
     }
-    public User(String firstName, String lastName, byte[] userImage, String login, String password, Date registrationDate, Date lastVisit, String token, String deviceId, String applicationId) {
+    public User(String firstName, String lastName, String userImage, String login, String password, Date registrationDate, Date lastVisit, String token, String deviceId, String applicationId, String email, String skype, String phone) {
        this.firstName = firstName;
        this.lastName = lastName;
        this.userImage = userImage;
@@ -47,6 +50,9 @@ public class User  implements java.io.Serializable {
        this.token = token;
        this.deviceId = deviceId;
        this.applicationId = applicationId;
+       this.email = email;
+       this.skype = skype;
+       this.phone = phone;
     }
    
     public Long getId() {
@@ -70,11 +76,11 @@ public class User  implements java.io.Serializable {
     public void setLastName(String lastName) {
         this.lastName = lastName;
     }
-    public byte[] getUserImage() {
+    public String getUserImage() {
         return this.userImage;
     }
     
-    public void setUserImage(byte[] userImage) {
+    public void setUserImage(String userImage) {
         this.userImage = userImage;
     }
     public String getLogin() {
@@ -125,6 +131,27 @@ public class User  implements java.io.Serializable {
     
     public void setApplicationId(String applicationId) {
         this.applicationId = applicationId;
+    }
+    public String getEmail() {
+        return this.email;
+    }
+    
+    public void setEmail(String email) {
+        this.email = email;
+    }
+    public String getSkype() {
+        return this.skype;
+    }
+    
+    public void setSkype(String skype) {
+        this.skype = skype;
+    }
+    public String getPhone() {
+        return this.phone;
+    }
+    
+    public void setPhone(String phone) {
+        this.phone = phone;
     }
 
 

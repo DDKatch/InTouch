@@ -1,5 +1,5 @@
 package com.intouch.hibernate;
-// Generated 19.04.2016 15:45:16 by Hibernate Tools 4.3.1
+// Generated 01.05.2016 17:29:52 by Hibernate Tools 4.3.1
 
 
 

@@ -8,6 +8,7 @@ package com.intouch.db;
 import com.intouch.exceptions.ServerQueryException;
 import com.intouch.hibernate.Comments;
 import com.intouch.hibernate.Event;
+import com.intouch.hibernate.EventMarks;
 import com.intouch.hibernate.EventType;
 import com.intouch.hibernate.HibernateUtil;
 import com.intouch.hibernate.User;
@@ -396,6 +397,53 @@ public class DataHelper {
         session.getTransaction().commit();
         return users;
         
+    }
+    
+    public void markEvent(EventMarks eventMarks) throws ServerQueryException{
+        if(getEventById(eventMarks.getEventId())==null){
+            throw new ServerQueryException("Event with id "+eventMarks.getEventId()+" was not found");
+        }
+        
+        
+        Session session = getSession();
+        session.beginTransaction();
+        
+        EventMarks temp = (EventMarks)session.createCriteria(EventMarks.class).add(Restrictions.eq("userId", eventMarks.getUserId())).add(Restrictions.eq("eventId", eventMarks.getEventId())).uniqueResult();
+        
+        if(temp==null){
+            session.save(eventMarks);
+        }
+        
+        else{
+            temp.setMark(eventMarks.getMark());
+        }
+
+        session.getTransaction().commit();
+        
+        
+    }
+    
+    public Long getUserIdByToken(String token) throws ServerQueryException{
+        Session session = getSession();
+        session.beginTransaction();
+        Long id = (Long)session.createCriteria(User.class).add(Restrictions.eq("token", token)).setProjection(Projections.property("id")).uniqueResult();
+        if(id==null){
+            session.getTransaction().commit();
+            throw new ServerQueryException("User with token "+token+" was not found");
+        }
+        session.getTransaction().commit();
+        return id;
+    }
+    
+    public List<EventMarks> getEventMarks(long id, String property){
+        Session session = getSession();
+        session.beginTransaction();
+        
+        List<EventMarks> marks = session.createCriteria(EventMarks.class).add(Restrictions.eq(property, id)).list();
+        
+        session.getTransaction().commit();
+        
+        return marks;
     }
        
 }

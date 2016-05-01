@@ -39,6 +39,22 @@ public class RegistrationProcessor extends Processor {
             throw new ServerQueryException("User with login "+ params.get("login")[0] +"already exist.");
         }
         User user = new User(params.get("first_name")[0], params.get("last_name")[0], params.get("login")[0], params.get("password")[0], new Date(), new Date(), UUID.randomUUID().toString(), params.get("deviceId")[0]);
+       
+        if(params.get("skype")!=null){
+            user.setSkype(params.get("skype")[0]);
+        }
+        
+        if(params.get("email")!=null){
+            user.setSkype(params.get("email")[0]);
+        }
+                
+        if(params.get("skype")!=null){
+            user.setSkype(params.get("phone")[0]);
+        }
+        
+        if(params.get("image_url")!=null){
+            user.setUserImage(params.get("image_url")[0]);
+        }
         user.setApplicationId(params.get("applicationId")[0]);
         dataHelper.createNewUser(user);
         
