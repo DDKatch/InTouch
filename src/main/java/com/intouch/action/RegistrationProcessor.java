@@ -48,7 +48,7 @@ public class RegistrationProcessor extends Processor {
             user.setSkype(params.get("email")[0]);
         }
                 
-        if(params.get("skype")!=null){
+        if(params.get("phone")!=null){
             user.setSkype(params.get("phone")[0]);
         }
         
