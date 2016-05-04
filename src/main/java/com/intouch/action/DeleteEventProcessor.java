@@ -37,8 +37,11 @@ public class DeleteEventProcessor extends Processor{
         if(user==null){
             throw new ServerQueryException("Invalid token");
         }
-        
+                
         Event event = dataHelper.getEventById(Long.parseLong(params.get("event_id")[0]));
+        
+        if(user.getId() != event.getCreatorId())
+            throw new ServerQueryException("User isn't event creator");
         
         Gson gson = new Gson();
         response.put("result", "success");
