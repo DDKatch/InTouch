@@ -27,30 +27,45 @@ public class UpdateUserProcessor extends Processor {
         response = new JSONObject();
         
         isParameterExist(params, "api_key");
-        isParameterExist(params, "login");
-        isParameterExist(params, "password");
-        isParameterExist(params, "first_name");
-        isParameterExist(params, "last_name");
-        isParameterExist(params, "skype");
-        isParameterExist(params, "phone");
-        isParameterExist(params, "email");
-        isParameterExist(params, "image");
         isParameterExist(params, "token");
         isApiKeyValid(params.get("api_key"));
-        
         user = dataHelper.getUserByToken(params.get("token")[0]);
         if(user == null){
             throw new ServerQueryException("Invalid token");
         }
         
-        user.setSkype(params.get("skype")[0]);
-        user.setEmail(params.get("email")[0]);
-        user.setPassword(params.get("password")[0]);
-        user.setLastName(params.get("last_name")[0]);
-        user.setFirstName(params.get("first_name")[0]);
-        user.setPhone(params.get("phone")[0]);
-        user.setUserImage(params.get("image")[0]);
+        if(params.get("skype")!=null){
+            user.setSkype(params.get("skype")[0]);
+        }
         
+        if(params.get("email")!=null){
+            user.setSkype(params.get("email")[0]);
+        }
+                
+        if(params.get("skype")!=null){
+            user.setSkype(params.get("phone")[0]);
+        }
+        
+        if(params.get("image_url")!=null){
+            user.setUserImage(params.get("image_url")[0]);
+        }
+        
+        if(params.get("login")!=null){
+            user.setSkype(params.get("login")[0]);
+        }
+        
+        if(params.get("password")!=null){
+            user.setSkype(params.get("password")[0]);
+        }
+                
+        if(params.get("first_name")!=null){
+            user.setSkype(params.get("first_name")[0]);
+        }
+        
+        if(params.get("last_name")!=null){
+            user.setUserImage(params.get("last_name")[0]);
+        }
+                
         dataHelper.saveUserChanges(user);
         Gson gson = new Gson();
         response.put("result", "success");
