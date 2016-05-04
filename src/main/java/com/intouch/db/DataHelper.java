@@ -14,7 +14,6 @@ import com.intouch.hibernate.HibernateUtil;
 import com.intouch.hibernate.User;
 import com.intouch.hibernate.UserEvent;
 import com.intouch.hibernate.UserSubs;
-import com.sun.javafx.scene.control.skin.VirtualFlow;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -330,7 +329,7 @@ public class DataHelper {
         session.beginTransaction();
         List<UserEvent> userEvents = session.createCriteria(UserEvent.class).add(Restrictions.eq("userId", userId)).list();
         
-        if(userEvents==null||userEvents.size()==0){
+        if(userEvents==null||userEvents.isEmpty()){
             session.getTransaction().commit();
             return new ArrayList<Event>();
         }
@@ -446,4 +445,53 @@ public class DataHelper {
         return marks;
     }
        
+    public void saveUserChanges(User user){
+        Session session = getSession();
+        session.beginTransaction();
+        session.saveOrUpdate(user.getId().toString(), user);
+        session.getTransaction().commit(); 
+    }
+    
+    public void deleteEvent(Event event){
+        Session session = getSession();
+        session.beginTransaction();
+        
+        session.delete(event.getId().toString(), event);
+ 
+        session.getTransaction().commit(); 
+    }
+    
+    public void deleteEventComments(Event event){
+        Session session = getSession();
+        session.beginTransaction();
+        
+        String hql = "delete Comments where eventId = :eventId";
+        Query query = session.createQuery(hql);
+        query.setParameter("eventId", event.getId());
+        query.executeUpdate();
+        
+        session.getTransaction().commit(); 
+    }
+    
+    public void deleteEventMarks(Event event){
+        Session session = getSession();
+        session.beginTransaction();
+        
+        String hql = "delete EventMarks where eventId = :eventId";
+        Query query = session.createQuery(hql);
+        query.setParameter("eventId", event.getId());
+        query.executeUpdate();
+        
+        session.getTransaction().commit(); 
+    }
+    
+    public void deleteUserEvent(Event event){
+        Session session = getSession();
+        session.beginTransaction();
+        
+        UserEvent userEvent = (UserEvent)session.createCriteria(UserEvent.class).add(Restrictions.eq("eventId", event.getId())).uniqueResult();
+        session.delete(userEvent);
+        
+        session.getTransaction().commit(); 
+    }
 }
