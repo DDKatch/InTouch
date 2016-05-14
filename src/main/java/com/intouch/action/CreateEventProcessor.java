@@ -58,6 +58,7 @@ public class CreateEventProcessor extends Processor{
             Logger.getLogger(CreateEventProcessor.class.getName()).log(Level.SEVERE, null, ex);
             throw new ServerQueryException("invalid date format");
         }
+       //date_time = new Date();
         
         Event event = new Event(params.get("name")[0], params.get("description")[0], params.get("gps")[0], user.getId(), date_time, params.get("address")[0], new Date(), Integer.parseInt(params.get("type_id")[0]), params.get("city")[0]);
         dataHelper.createNewEvent(event);

@@ -1,5 +1,5 @@
 package com.intouch.hibernate;
-// Generated 01.05.2016 17:29:52 by Hibernate Tools 4.3.1
+// Generated 14.05.2016 17:07:34 by Hibernate Tools 4.3.1
 
 
 
@@ -12,13 +12,15 @@ public class Comments  implements java.io.Serializable {
      private Long id;
      private long userId;
      private long eventId;
+     private String comment;
 
     public Comments() {
     }
 
-    public Comments(long userId, long eventId) {
+    public Comments(long userId, long eventId, String comment) {
        this.userId = userId;
        this.eventId = eventId;
+       this.comment = comment;
     }
    
     public Long getId() {
@@ -41,6 +43,13 @@ public class Comments  implements java.io.Serializable {
     
     public void setEventId(long eventId) {
         this.eventId = eventId;
+    }
+    public String getComment() {
+        return this.comment;
+    }
+    
+    public void setComment(String comment) {
+        this.comment = comment;
     }
 
 

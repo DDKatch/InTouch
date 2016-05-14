@@ -34,7 +34,7 @@ CREATE TABLE `event` (
   `type_id` int(11) DEFAULT NULL,
   `city` varchar(45) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -43,7 +43,7 @@ CREATE TABLE `event` (
 
 LOCK TABLES `event` WRITE;
 /*!40000 ALTER TABLE `event` DISABLE KEYS */;
-INSERT INTO `event` VALUES ('wefijwoeigj','oiwergoeirg','eiogjoeirgjoe',1,6,'2016-04-14 22:26:57','eoirjgoeirj','2016-04-14 22:26:57',2,'eorigjeiog'),('Buhat','erigu','ergerg',2,6,'2016-04-14 22:26:57','ertertert','2016-04-14 22:26:57',2,'Minsk'),('name','goodEvent','wefwefwef',3,9,'2016-04-21 20:44:03','fefwefwefwef','2016-04-21 20:50:37',2,'Minsk'),('jknkjn','kjnkjnkj','nkjnkjnkjn',4,6,'2016-04-21 20:44:03','oioihoihoih','2016-04-21 20:44:03',2,'dfkjdf');
+INSERT INTO `event` VALUES ('wefijwoeigj','oiwergoeirg','eiogjoeirgjoe',1,6,'2016-04-14 22:26:57','eoirjgoeirj','2016-04-14 22:26:57',2,'eorigjeiog'),('Buhat','erigu','ergerg',2,6,'2016-04-14 22:26:57','ertertert','2016-04-14 22:26:57',2,'Minsk'),('name','goodEvent','wefwefwef',3,9,'2016-04-21 20:44:03','fefwefwefwef','2016-04-21 20:50:37',2,'Minsk'),('jknkjn','kjnkjnkj','nkjnkjnkjn',4,6,'2016-04-21 20:44:03','oioihoihoih','2016-04-21 20:44:03',2,'dfkjdf'),('werwer','qweqwe','234234',5,5,'2016-05-08 16:39:17','iuyiuy','2016-05-08 16:39:17',1,'yuut'),('werwer','qweqwe','234234',6,5,'2016-05-08 16:59:53','iuyiuy','2016-05-08 16:59:53',1,'yuut'),('werwer','qweqwe','234234',7,5,'2016-05-08 17:10:05','iuyiuy','2016-05-08 17:10:05',1,'yuut');
 /*!40000 ALTER TABLE `event` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -56,4 +56,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2016-05-01 18:44:08
+-- Dump completed on 2016-05-14 17:09:37

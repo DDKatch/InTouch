@@ -255,7 +255,7 @@ public class DataHelper {
         
         if(userSubsList.size()==0){
             session.getTransaction().commit();
-            return new ArrayList<String>();sssss
+            return new ArrayList<String>();
         }
         
         Criterion criterion = null;
@@ -305,7 +305,7 @@ public class DataHelper {
         if(userId==null){
             throw new ServerQueryException("User with token "+ token+" was not found");
         }
-        Comments comments = new Comments(userId, eventId);
+        Comments comments = new Comments(userId, eventId, comment);
         session.save(comments);
         session.getTransaction().commit();     
     }

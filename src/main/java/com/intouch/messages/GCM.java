@@ -31,6 +31,7 @@ public class GCM {
         Message message = mb.build();
             
         try {
+           // String temp = "cM_neUfFJnU:APA91bG8FRVsai5ttAatcAjedkhA8foZAc69lau68cV0KAn1CVXadmY0Flr-hHw5dSiETP_AqYycjWRaPnAjyUjbRXxJ3PXrjS4zxZ43TupNQpuldVVl48n5UIF8yWGC3n6-8IECVfm6";
             Result result = sender.send(message, token, 5);
         } catch (IOException ex) {
             Logger.getLogger(GCM.class.getName()).log(Level.SEVERE, null, ex);
