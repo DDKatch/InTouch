@@ -494,4 +494,14 @@ public class DataHelper {
         
         session.getTransaction().commit(); 
     }
+    
+    public List<Comments> getUserComments(User user){
+        Session session = getSession();
+        session.beginTransaction();
+        
+        List<Comments> comments = session.createCriteria(Comments.class).add(Restrictions.eq("userId", user.getId())).list();
+        
+        session.getTransaction().commit(); 
+        return comments;
+    }
 }
