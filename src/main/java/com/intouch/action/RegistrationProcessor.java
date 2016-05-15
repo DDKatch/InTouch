@@ -45,11 +45,11 @@ public class RegistrationProcessor extends Processor {
         }
         
         if(params.get("email")!=null){
-            user.setSkype(params.get("email")[0]);
+            user.setEmail(params.get("email")[0]);
         }
                 
         if(params.get("phone")!=null){
-            user.setSkype(params.get("phone")[0]);
+            user.setPhone(params.get("phone")[0]);
         }
         
         if(params.get("image_url")!=null){
