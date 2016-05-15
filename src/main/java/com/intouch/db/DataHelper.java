@@ -514,4 +514,21 @@ public class DataHelper {
         session.getTransaction().commit(); 
         return comments;
     }
+    
+    public Comments getCommentById(Long id){
+        Session session = getSession();
+        session.beginTransaction();
+        Comments comment = (Comments) session.createCriteria(Comments.class).add(Restrictions.eq("id", id)).uniqueResult();
+        session.getTransaction().commit();
+        return comment;
+    }
+    
+    public void deleteComment(Comments comment){
+        Session session = getSession();
+        session.beginTransaction();
+        
+        session.delete((Comments)session.createCriteria(Comments.class).add(Restrictions.eq("id", comment.getId())).uniqueResult());
+        
+        session.getTransaction().commit(); 
+    }
 }
