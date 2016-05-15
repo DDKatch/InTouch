@@ -51,19 +51,19 @@ public class UpdateUserProcessor extends Processor {
         }
         
         if(params.get("login")!=null){
-            user.setSkype(params.get("login")[0]);
+            user.setLogin(params.get("login")[0]);
         }
         
         if(params.get("password")!=null){
-            user.setSkype(params.get("password")[0]);
+            user.setPassword(params.get("password")[0]);
         }
                 
         if(params.get("first_name")!=null){
-            user.setSkype(params.get("first_name")[0]);
+            user.setFirstName(params.get("first_name")[0]);
         }
         
         if(params.get("last_name")!=null){
-            user.setUserImage(params.get("last_name")[0]);
+            user.setLastName(params.get("last_name")[0]);
         }
                 
         dataHelper.saveUserChanges(user);
