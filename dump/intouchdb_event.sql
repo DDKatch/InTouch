@@ -29,7 +29,7 @@ CREATE TABLE `event` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT,
   `creator_id` bigint(20) NOT NULL,
   `date_time` datetime NOT NULL,
-  `address` varchar(45) NOT NULL,
+  `address` varchar(600) NOT NULL,
   `create_date` datetime NOT NULL,
   `type_id` int(11) DEFAULT NULL,
   `city` varchar(45) NOT NULL,

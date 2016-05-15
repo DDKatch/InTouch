@@ -4,9 +4,9 @@
   <session-factory>
     <property name="hibernate.dialect">org.hibernate.dialect.MySQLDialect</property>
     <property name="hibernate.connection.driver_class">com.mysql.jdbc.Driver</property>
-    <property name="hibernate.connection.url">jdbc:mysql://localhost:3306/intouchdb?autoReconnect=true</property>
+    <property name="hibernate.connection.url">jdbc:mysql://node106092-intouch.jelastic.regruhosting.ru/intouchdb?autoReconnect=true</property>
     <property name="hibernate.connection.username">root</property>
-    <property name="hibernate.connection.password">root</property>
+    <property name="hibernate.connection.password">VQGzoc55275</property>
     <property name="hibernate.current_session_context_class">thread</property>
     <mapping resource="com/intouch/hibernate/EventType.hbm.xml"/>
     <mapping resource="com/intouch/hibernate/EventMarks.hbm.xml"/>

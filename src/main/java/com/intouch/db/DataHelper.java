@@ -226,7 +226,11 @@ public class DataHelper {
         List<User> users = session.createCriteria(User.class).add(criterion).setProjection(Projections.projectionList()
                 .add(Projections.property("id"), "id").add(Projections.property("login"), "login").add(Projections.property("firstName"), "firstName").
                 add(Projections.property("lastName"), "lastName").add(Projections.property("registrationDate"), "registrationDate")
-                .add(Projections.property("lastVisit"), "lastVisit")
+                .add(Projections.property("lastVisit"), "lastVisit").
+                add(Projections.property("email"), "email")
+                .add(Projections.property("phone"), "phone")
+                .add(Projections.property("skype"), "skype")
+                .add(Projections.property("userImage"), "userImage")
              ).setResultTransformer(Transformers.aliasToBean(User.class)).list();
         
         session.getTransaction().commit();
@@ -244,7 +248,7 @@ public class DataHelper {
     public List<String> getMyFollowersTokens(String token) throws ServerQueryException{
         Session session = getSession();
         session.beginTransaction();
-       /* Long userId = (Long)session.createCriteria(User.class).add(Restrictions.eq("token", token)).setProjection(Projections.property("id")).uniqueResult();
+        Long userId = (Long)session.createCriteria(User.class).add(Restrictions.eq("token", token)).setProjection(Projections.property("id")).uniqueResult();
         
         if(userId==null){
             session.getTransaction().commit();
@@ -266,9 +270,9 @@ public class DataHelper {
             criterions[i] = Restrictions.eq("id", userSubsList.get(i).getUser());
         }
         
-        criterion = Restrictions.or(criterions);*/
+        criterion = Restrictions.or(criterions);
         
-        List<String> tokens = session.createCriteria(User.class).setProjection(Projections.property("deviceId")).list();
+        List<String> tokens = session.createCriteria(User.class).add(criterion).setProjection(Projections.property("deviceId")).list();
         
         session.getTransaction().commit();
         return tokens;
@@ -356,7 +360,11 @@ public class DataHelper {
         User user = (User)session.createCriteria(User.class).add(Restrictions.eq("id", userId)).setProjection(Projections.projectionList()
                 .add(Projections.property("id"), "id").add(Projections.property("login"), "login").add(Projections.property("firstName"), "firstName").
                 add(Projections.property("lastName"), "lastName").add(Projections.property("registrationDate"), "registrationDate")
-                .add(Projections.property("lastVisit"), "lastVisit")
+                .add(Projections.property("lastVisit"), "lastVisit").
+                add(Projections.property("email"), "email")
+                .add(Projections.property("phone"), "phone")
+                .add(Projections.property("skype"), "skype")
+                .add(Projections.property("userImage"), "userImage")
              ).setResultTransformer(Transformers.aliasToBean(User.class)).uniqueResult();
         session.getTransaction().commit();
         
@@ -390,7 +398,11 @@ public class DataHelper {
         List<User> users = session.createCriteria(User.class).add(criterion).setProjection(Projections.projectionList()
                 .add(Projections.property("id"), "id").add(Projections.property("login"), "login").add(Projections.property("firstName"), "firstName").
                 add(Projections.property("lastName"), "lastName").add(Projections.property("registrationDate"), "registrationDate")
-                .add(Projections.property("lastVisit"), "lastVisit")
+                .add(Projections.property("lastVisit"), "lastVisit").
+                add(Projections.property("email"), "email")
+                .add(Projections.property("phone"), "phone")
+                .add(Projections.property("skype"), "skype")
+                .add(Projections.property("userImage"), "userImage")
              ).setResultTransformer(Transformers.aliasToBean(User.class)).list();
         
         session.getTransaction().commit();
