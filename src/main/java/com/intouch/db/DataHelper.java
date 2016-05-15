@@ -504,4 +504,14 @@ public class DataHelper {
         session.getTransaction().commit(); 
         return comments;
     }
+       
+    public List<Comments> getEventComments(Event event){
+        Session session = getSession();
+        session.beginTransaction();
+        
+        List<Comments> comments = session.createCriteria(Comments.class).add(Restrictions.eq("eventId", event.getId())).list();
+        
+        session.getTransaction().commit(); 
+        return comments;
+    }
 }
